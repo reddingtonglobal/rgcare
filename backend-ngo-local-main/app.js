@@ -5,8 +5,16 @@ const nodemailer = require('nodemailer');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const bodyParser = require('body-parser');
+const Razorpay = require('razorpay');
 const config = require('./config');
+
+// Razorpay instance
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 const app = express();
 const port = config.port;
@@ -150,6 +158,127 @@ app.post('/api/volunteer-with-us', upload, (req, res) => {
 
 app.get('/', (req, res) => {
   res.send('Backend is running!');
+});
+
+// ─────────────────────────────────────────────
+//  RAZORPAY – Create Order
+// ─────────────────────────────────────────────
+app.post('/api/create-razorpay-order', async (req, res) => {
+  try {
+    const { amount } = req.body; // amount expected in INR (e.g. 500)
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      return res.status(400).json({ error: 'Invalid donation amount.' });
+    }
+
+    const options = {
+      amount: Math.round(Number(amount) * 100), // Razorpay expects paise
+      currency: 'INR',
+      receipt: `receipt_${Date.now()}`,
+      payment_capture: 1,
+    };
+
+    const order = await razorpay.orders.create(options);
+    res.status(200).json({
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      keyId: process.env.RAZORPAY_KEY_ID,
+    });
+  } catch (error) {
+    console.error('Razorpay order creation failed:', error);
+    res.status(500).json({ error: 'Failed to create payment order.' });
+  }
+});
+
+// ─────────────────────────────────────────────
+//  RAZORPAY – Verify Payment & Send Emails
+// ─────────────────────────────────────────────
+app.post('/api/verify-razorpay-payment', (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, donorDetails } = req.body;
+
+    // Verify signature
+    const expectedSignature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest('hex');
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({ error: 'Payment verification failed. Invalid signature.' });
+    }
+
+    const { firstName, lastName, email, address, note, amount } = donorDetails;
+    const donorName = `${firstName} ${lastName}`;
+    const date = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const noteSection = note
+      ? `<div class="detail-row"><span class="label">Message / Note</span><span class="value">${note}</span></div>`
+      : '';
+
+    // Read and fill donor confirmation template
+    fs.readFile(path.join(__dirname, 'templates', 'donation-confirmation.html'), 'utf8', (err, donorHtml) => {
+      if (err) return res.status(500).json({ error: 'Error reading email template.' });
+
+      const donorEmailContent = donorHtml
+        .replace(/{{donorName}}/g, donorName)
+        .replace(/{{amount}}/g, amount)
+        .replace(/{{email}}/g, email)
+        .replace(/{{address}}/g, address)
+        .replace(/{{orderId}}/g, razorpay_order_id)
+        .replace(/{{paymentId}}/g, razorpay_payment_id)
+        .replace(/{{date}}/g, date)
+        .replace(/{{noteSection}}/g, noteSection);
+
+      // Read and fill admin notification template
+      fs.readFile(path.join(__dirname, 'templates', 'donation-admin-notify.html'), 'utf8', (err2, adminHtml) => {
+        if (err2) return res.status(500).json({ error: 'Error reading admin email template.' });
+
+        const adminEmailContent = adminHtml
+          .replace(/{{donorName}}/g, donorName)
+          .replace(/{{amount}}/g, amount)
+          .replace(/{{email}}/g, email)
+          .replace(/{{address}}/g, address)
+          .replace(/{{orderId}}/g, razorpay_order_id)
+          .replace(/{{paymentId}}/g, razorpay_payment_id)
+          .replace(/{{date}}/g, date)
+          .replace(/{{noteSection}}/g, noteSection);
+
+        // Send donor confirmation email
+        const donorMailOptions = {
+          from: `RG Care Foundation <${process.env.SMTP_USER}>`,
+          to: email,
+          subject: `Donation Confirmed – Thank You, ${firstName}! | RG Care Foundation`,
+          html: donorEmailContent,
+        };
+
+        // Send admin notification email
+        const adminMailOptions = {
+          from: `RG Care Donations <${process.env.SMTP_USER}>`,
+          to: process.env.SMTP_USER,
+          replyTo: `${donorName} <${email}>`,
+          subject: `New Donation of ₹${amount} from ${donorName}`,
+          html: adminEmailContent,
+        };
+
+        transporter.sendMail(donorMailOptions, (errDonor) => {
+          if (errDonor) console.error('Error sending donor email:', errDonor);
+        });
+
+        transporter.sendMail(adminMailOptions, (errAdmin) => {
+          if (errAdmin) console.error('Error sending admin email:', errAdmin);
+        });
+
+        res.status(200).json({
+          success: true,
+          message: 'Payment verified and confirmation emails sent.',
+          paymentId: razorpay_payment_id,
+          orderId: razorpay_order_id,
+        });
+      });
+    });
+  } catch (error) {
+    console.error('Payment verification error:', error);
+    res.status(500).json({ error: 'Internal server error during payment verification.' });
+  }
 });
 
 app.listen(port, () => {

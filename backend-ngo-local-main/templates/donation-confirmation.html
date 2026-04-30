@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donation Confirmation – RG Care Foundation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #2e26b2;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 22px;
+      }
+      .header p {
+        margin: 6px 0 0;
+        font-size: 14px;
+        color: #c8d4ff;
+      }
+      .content {
+        padding: 24px 28px;
+        color: #333333;
+      }
+      .content p {
+        line-height: 1.6;
+        margin: 0 0 14px;
+      }
+      .highlight-box {
+        background: #f0f0ff;
+        border-left: 4px solid #2e26b2;
+        border-radius: 4px;
+        padding: 14px 18px;
+        margin: 18px 0;
+      }
+      .highlight-box .amount {
+        font-size: 26px;
+        font-weight: bold;
+        color: #2e26b2;
+      }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #eeeeee;
+        padding: 8px 0;
+        font-size: 14px;
+      }
+      .detail-row:last-child {
+        border-bottom: none;
+      }
+      .detail-row .label {
+        font-weight: bold;
+        color: #555;
+        min-width: 160px;
+      }
+      .detail-row .value {
+        color: #222;
+        text-align: right;
+      }
+      .thank-you {
+        background-color: #FBAD17;
+        border-radius: 6px;
+        padding: 14px 18px;
+        text-align: center;
+        margin: 20px 0 0;
+        color: #1c3252;
+        font-weight: bold;
+        font-size: 15px;
+      }
+      .footer {
+        background-color: #1c3252;
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 12px;
+        color: #fff;
+      }
+      .footer a {
+        color: #FBAD17;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🙏 Thank You for Your Donation!</h1>
+        <p>Reddington Global Care Foundation</p>
+      </div>
+      <div class="content">
+        <p>Dear <strong>{{donorName}}</strong>,</p>
+        <p>
+          We have successfully received your generous donation. Your contribution
+          will help us provide education and care to underprivileged children.
+        </p>
+
+        <div class="highlight-box">
+          <div>Donation Amount</div>
+          <div class="amount">₹{{amount}}</div>
+        </div>
+
+        <div class="detail-row">
+          <span class="label">Donor Name</span>
+          <span class="value">{{donorName}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Email</span>
+          <span class="value">{{email}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Address</span>
+          <span class="value">{{address}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Razorpay Order ID</span>
+          <span class="value">{{orderId}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Payment ID</span>
+          <span class="value">{{paymentId}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Date</span>
+          <span class="value">{{date}}</span>
+        </div>
+
+        {{noteSection}}
+
+        <div class="thank-you">
+          Your kindness makes a real difference. Together we can change lives! 💛
+        </div>
+      </div>
+      <div class="footer">
+        <p>
+          Reddington Global Care Foundation &nbsp;|&nbsp;
+          <a href="https://rgcare.in">rgcare.in</a>
+        </p>
+        <p>This is an automated donation confirmation. Please keep it for your records.</p>
+      </div>
+    </div>
+  </body>
+</html>

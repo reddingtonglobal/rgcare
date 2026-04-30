@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import shape2 from '../../images/about/shape2.svg'
 import shape3 from '../../images/cta-shap-3.svg'
 
 const DonateSection = () => {
     const [selectedAmount, setSelectedAmount] = useState('');
-
+    const navigate = useNavigate();
 
     const handleAmountClick = (amount) => {
-        setSelectedAmount(amount);
+        setSelectedAmount(String(amount));
+    };
+
+    const handleDonateNow = (e) => {
+        e.preventDefault();
+        // Navigate to donate page; pass amount via query param so it pre-fills
+        const amt = selectedAmount.replace(/[^0-9.]/g, '');
+        navigate(amt ? `/donate?amount=${amt}` : '/donate');
     };
 
     return (
@@ -44,23 +52,25 @@ const DonateSection = () => {
                         {[100, 200, 300, 400, 600].map(amount => (
                             <button
                                 key={amount}
-                                className={`amount-btn ${selectedAmount === `$${amount}` ? 'active' : ''}`}
-                                onClick={() => handleAmountClick(`$${amount}`)}
+                                className={`amount-btn ${selectedAmount === String(amount) ? 'active' : ''}`}
+                                onClick={() => handleAmountClick(amount)}
                             >
-                                ${amount}
+                                ₹{amount}
                             </button>
                         ))}
                         <input
                             type="text"
                             className="addAmount-value"
-                            placeholder="$Custom"
+                            placeholder="₹ Custom"
                             value={selectedAmount}
-                            onChange={(e) => setSelectedAmount(e.target.value)} 
+                            onChange={(e) => setSelectedAmount(e.target.value)}
                         />
                     </div>
                     <div className="donate-now">
                         <div className="donation-one__btn-box">
-                            <a href="#" className="donation-one__btn theme-btn">Donate Now <i className="flaticon-heart"></i></a>
+                            <a href="/donate" onClick={handleDonateNow} className="donation-one__btn theme-btn">
+                                Donate Now <i className="flaticon-heart"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -79,3 +89,4 @@ const DonateSection = () => {
 };
 
 export default DonateSection;
+
