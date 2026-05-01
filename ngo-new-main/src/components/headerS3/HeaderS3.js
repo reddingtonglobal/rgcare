@@ -4,7 +4,6 @@ import { Link as ScrollLink } from 'react-scroll';
 import MobileMenu from '../MobileMenu/MobileMenu';
 import { connect } from 'react-redux';
 import { removeFromCart } from '../../store/actions/action';
-import HeaderTopbarS3 from '../HeaderTopbarS3/HeaderTopbarS3';
 
 const HeaderS3 = props => {
   const [isSubMenuVisible, setSubMenuVisible] = useState(true);
@@ -13,27 +12,39 @@ const HeaderS3 = props => {
   };
   return (
     <header id="header" className="header-s3" style={props.style}>
-      <HeaderTopbarS3 />
       <div className={'' + props.hclass}>
         <nav className="navigation navbar navbar-expand-lg navbar-light">
-          <div className="container-fluid">
-            <div className="row align-items-center">
-              <div className="col-lg-3 col-md-3 col-3 d-lg-none dl-block">
-                <MobileMenu />
-              </div>
-              <div className="col-lg-2 col-md-6 col-6">
-                <div className="navbar-header">
-                  <Link onClick={ClickHandler} className="navbar-brand" to="/home">
-                    <img src={props.Logo} alt="logo" />
-                  </Link>
-                </div>
-              </div>
-              <div className="col-lg-7 col-md-1 col-1">
-                <div id="navbar" className="collapse navbar-collapse navigation-holder">
-                  <button className="menu-close">
-                    <i className="ti-close"></i>
-                  </button>
-                  <ul className="nav navbar-nav mb-2 mb-lg-0">
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '0 20px 0 15px' }}>
+
+            {/* LOGO — top-left */}
+            <div style={{ flexShrink: 0, marginRight: '30px' }}>
+              <Link onClick={ClickHandler} className="navbar-brand" to="/home" style={{ padding: 0, margin: 0, display: 'inline-block' }}>
+                <img
+                  src={props.Logo}
+                  alt="logo"
+                  style={{
+                    width: '200px',
+                    maxWidth: 'none',
+                    height: 'auto',
+                    display: 'block',
+                    objectFit: 'contain',
+                    imageRendering: '-webkit-optimize-contrast',
+                  }}
+                />
+              </Link>
+            </div>
+
+            {/* MOBILE MENU */}
+            <div className="d-lg-none" style={{ marginLeft: 'auto' }}>
+              <MobileMenu />
+            </div>
+
+            {/* NAV MENU — center */}
+            <div id="navbar" className="collapse navbar-collapse navigation-holder d-none d-lg-flex" style={{ flex: 1 }}>
+              <button className="menu-close">
+                <i className="ti-close"></i>
+              </button>
+              <ul className="nav navbar-nav mb-2 mb-lg-0">
                     <li className="menu-item-has-children">
                       <Link onClick={ClickHandler} className="active" to="/home">
                         Home
@@ -168,18 +179,55 @@ const HeaderS3 = props => {
                       </Link>
                     </li>
                   </ul>
-                </div>
+            </div>
+
+            {/* CTA + CONTACT — far right */}
+            <div className="d-none d-lg-flex" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: '18px', marginLeft: 'auto' }}>
+              <div className="close-form">
+                <Link onClick={ClickHandler} className="theme-btn" to="/donate" style={{ padding: '11px 26px', fontSize: '14px', fontWeight: '600' }}>
+                  Donate Now
+                </Link>
               </div>
-              <div className="col-lg-3 col-md-2 col-2">
-                <div className="header-right">
-                  <div className="close-form">
-                    <Link onClick={ClickHandler} className="theme-btn" to="/donate">
-                      Donate now
-                    </Link>
-                  </div>
-                </div>
+              <div className="header-contact-info" style={{ 
+                display: 'flex', 
+                gap: '16px', 
+                fontSize: '13px',
+                paddingLeft: '18px',
+                borderLeft: '1px solid #e0e0e0'
+              }}>
+                <a href="mailto:info@rgcare.in" style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '6px', 
+                  whiteSpace: 'nowrap',
+                  color: '#333',
+                  textDecoration: 'none',
+                  transition: 'color 0.3s ease'
+                }}
+                  onMouseEnter={e => e.currentTarget.style.color = '#2727a8'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#333'}
+                >
+                  <i className="ti-email" style={{ color: '#2727a8', fontSize: '15px' }}></i>
+                  <span>info@rgcare.in</span>
+                </a>
+                <Link to="tel:+919220815624" style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '6px', 
+                  whiteSpace: 'nowrap',
+                  color: '#333',
+                  textDecoration: 'none',
+                  transition: 'color 0.3s ease'
+                }}
+                  onMouseEnter={e => e.currentTarget.style.color = '#2727a8'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#333'}
+                >
+                  <i className="ti-mobile" style={{ color: '#2727a8', fontSize: '15px' }}></i>
+                  <span>+91 9220815624</span>
+                </Link>
               </div>
             </div>
+
           </div>
         </nav>
       </div>

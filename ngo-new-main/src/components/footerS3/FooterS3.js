@@ -27,8 +27,18 @@ const FooterS3 = () => {
           <div className="row">
             <div className="col col-lg-3 col-md-6 col-sm-12 col-12">
               <div className="widget about-widget">
-                <Link onClick={ClickHandler} to="/" className="logo">
-                  <img src={Logo} alt="" />
+                <Link onClick={ClickHandler} to="/" className="logo" style={{ display: 'inline-block', marginBottom: '22px' }}>
+                  <img
+                    src={Logo}
+                    alt="RG Care Foundation"
+                    style={{
+                      width: '320px',
+                      height: 'auto',
+                      display: 'block',
+                      objectFit: 'contain',
+                      imageRendering: '-webkit-optimize-contrast',
+                    }}
+                  />
                 </Link>
                 <p>
                   Reddington Global Care Foundation is focussed towards a noble cause of educating maximum underprivileged citizens of the
