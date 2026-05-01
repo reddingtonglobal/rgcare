@@ -27,16 +27,19 @@ const FooterS3 = () => {
           <div className="row">
             <div className="col col-lg-3 col-md-6 col-sm-12 col-12">
               <div className="widget about-widget">
-                <Link onClick={ClickHandler} to="/" className="logo" style={{ display: 'inline-block', marginBottom: '22px' }}>
+                <Link onClick={ClickHandler} to="/" className="logo footer-logo-link" style={{ display: 'inline-block', marginBottom: '22px' }}>
                   <img
                     src={Logo}
                     alt="RG Care Foundation"
+                    className="footer-logo-img"
                     style={{
-                      width: '320px',
+                      width: '100%',
+                      maxWidth: '320px',
                       height: 'auto',
                       display: 'block',
                       objectFit: 'contain',
                       imageRendering: '-webkit-optimize-contrast',
+                      filter: 'drop-shadow(0px 0px 1px rgba(255,255,255,0.95)) drop-shadow(0px 0px 2px rgba(255,255,255,0.85))',
                     }}
                   />
                 </Link>
@@ -133,7 +136,7 @@ const FooterS3 = () => {
                     <i className="flaticon-time-left"></i>
                   </div>
                   <div className="text">
-                    <h3>Opening Houres</h3>
+                    <h3>Opening Hours</h3>
                     <span>Mon - Sat(8.00 - 6.00)</span>
                     <span>Sunday - Closed</span>
                   </div>

@@ -13,17 +13,18 @@ const HeaderS3 = props => {
   return (
     <header id="header" className="header-s3" style={props.style}>
       <div className={'' + props.hclass}>
-        <nav className="navigation navbar navbar-expand-lg navbar-light">
-          <div style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '0 20px 0 15px' }}>
+        <nav className="navigation navbar navbar-expand-xl navbar-light">
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '0 15px 0 15px' }}>
 
             {/* LOGO — top-left */}
-            <div style={{ flexShrink: 0, marginRight: '30px' }}>
+            <div style={{ flexShrink: 0, marginRight: '20px' }}>
               <Link onClick={ClickHandler} className="navbar-brand" to="/home" style={{ padding: 0, margin: 0, display: 'inline-block' }}>
                 <img
                   src={props.Logo}
                   alt="logo"
+                  className="header-logo-img"
                   style={{
-                    width: '200px',
+                    width: '180px',
                     maxWidth: 'none',
                     height: 'auto',
                     display: 'block',
@@ -35,12 +36,16 @@ const HeaderS3 = props => {
             </div>
 
             {/* MOBILE MENU */}
-            <div className="d-lg-none" style={{ marginLeft: 'auto' }}>
+            <div className="d-xl-none" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {/* Donate button always visible on mobile/tablet */}
+              <Link onClick={ClickHandler} className="theme-btn" to="/donate" style={{ padding: '8px 18px', fontSize: '13px', fontWeight: '600', whiteSpace: 'nowrap' }}>
+                Donate Now
+              </Link>
               <MobileMenu />
             </div>
 
             {/* NAV MENU — center */}
-            <div id="navbar" className="collapse navbar-collapse navigation-holder d-none d-lg-flex" style={{ flex: 1 }}>
+            <div id="navbar" className="collapse navbar-collapse navigation-holder d-none d-xl-flex" style={{ flex: 1 }}>
               <button className="menu-close">
                 <i className="ti-close"></i>
               </button>
@@ -182,7 +187,7 @@ const HeaderS3 = props => {
             </div>
 
             {/* CTA + CONTACT — far right */}
-            <div className="d-none d-lg-flex" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: '18px', marginLeft: 'auto' }}>
+            <div className="d-none d-xl-flex" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: '18px', marginLeft: 'auto' }}>
               <div className="close-form">
                 <Link onClick={ClickHandler} className="theme-btn" to="/donate" style={{ padding: '11px 26px', fontSize: '14px', fontWeight: '600' }}>
                   Donate Now
@@ -208,7 +213,7 @@ const HeaderS3 = props => {
                   onMouseLeave={e => e.currentTarget.style.color = '#333'}
                 >
                   <i className="ti-email" style={{ color: '#2727a8', fontSize: '15px' }}></i>
-                  <span>info@rgcare.in</span>
+                  <span className="contact-label">info@rgcare.in</span>
                 </a>
                 <Link to="tel:+919220815624" style={{ 
                   display: 'flex', 
@@ -223,7 +228,7 @@ const HeaderS3 = props => {
                   onMouseLeave={e => e.currentTarget.style.color = '#333'}
                 >
                   <i className="ti-mobile" style={{ color: '#2727a8', fontSize: '15px' }}></i>
-                  <span>+91 9220815624</span>
+                  <span className="contact-label">+91 9220815624</span>
                 </Link>
               </div>
             </div>
