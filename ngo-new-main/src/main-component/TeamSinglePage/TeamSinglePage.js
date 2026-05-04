@@ -5,7 +5,7 @@ import NavbarS3 from '../../components/NavbarS3/NavbarS3';
 import PageTitle from '../../components/pagetitle/PageTitle';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Contact from './contact';
-import logo from '../../images/logo.png';
+import logo from '../../images/header_logo-removebg-preview.png';
 import SkillProgress from './SkillProgress';
 import FooterS3 from '../../components/footerS3/FooterS3';
 

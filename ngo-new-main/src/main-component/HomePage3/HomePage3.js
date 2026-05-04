@@ -12,7 +12,7 @@ import MapSection from '../../components/MapSection/MapSection';
 import FooterS3 from '../../components/footerS3/FooterS3';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 // import Logo from '../../images/logo.svg';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/header_logo-removebg-preview.png';
 import ProgramsAndInitiatives from '../../components/ProgramsAndInitiatives/ProgramsAndInitiatives';
 import { motion } from 'framer-motion';
 import { variants } from '../../helpers';

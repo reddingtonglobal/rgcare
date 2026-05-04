@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import NavbarS3 from '../../components/NavbarS3/NavbarS3';
 import PageTitle from '../../components/pagetitle/PageTitle';
 import Scrollbar from '../../components/scrollbar/scrollbar';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/header_logo-removebg-preview.png';
 import TeamSectionS3 from '../../components/TeamSectionS3/TeamSectionS3';
 import FooterS3 from '../../components/footerS3/FooterS3';
 

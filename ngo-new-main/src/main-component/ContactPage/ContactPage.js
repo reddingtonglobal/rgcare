@@ -7,7 +7,7 @@ import FooterS3 from '../../components/footerS3/FooterS3';
 // import BannerImg from '../../images/image-gallery/contact-us.jpeg';
 import BannerImg from '../../images/banners/img-9-1.png';
 
-import Logo from '../../images/logo.png';
+import Logo from '../../images/header_logo-removebg-preview.png';
 const ContactPage = () => {
   const pageTitleStyle = {
     backgroundImage: `url(${BannerImg})`,

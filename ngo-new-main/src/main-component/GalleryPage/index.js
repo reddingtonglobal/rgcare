@@ -4,7 +4,7 @@ import Scrollbar from '../../components/scrollbar/scrollbar';
 import NavbarS3 from '../../components/NavbarS3/NavbarS3';
 import FooterS3 from '../../components/footerS3/FooterS3';
 import Gallery from '../../components/Gallery';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/header_logo-removebg-preview.png';
 import Image10 from '../../images/gallery/image-10.jpeg';
 import Image11 from '../../images/gallery/image-11.jpeg';
 import Image12 from '../../images/gallery/image-12.jpeg';

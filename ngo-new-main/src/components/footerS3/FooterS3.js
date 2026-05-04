@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import Logo from '../../images/logo.png';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/footerlogo-removebg-preview.png';
 
 import Services from '../../api/Services';
 
@@ -38,8 +38,6 @@ const FooterS3 = () => {
                       height: 'auto',
                       display: 'block',
                       objectFit: 'contain',
-                      imageRendering: '-webkit-optimize-contrast',
-                      filter: 'drop-shadow(0px 0px 1px rgba(255,255,255,0.95)) drop-shadow(0px 0px 2px rgba(255,255,255,0.85))',
                     }}
                   />
                 </Link>
@@ -48,18 +46,18 @@ const FooterS3 = () => {
                   world.
                 </p>
                 <span>
-                  <i className="flaticon-maps-and-flags"></i>Tulip Ivory, Tower D, G002,
-                  <br /> Sector 70,Gurgaon, Haryana, 122101, India
+                  <i className="flaticon-maps-and-flags"></i>750, Udyog Vihar Phase 5,
+                  <br /> Sector 19,Gurgaon, Haryana, 122016, India
                   {/* 122018, India */}
                 </span>
                 <span>
                   <a
-                    href="https://www.reddingtonglobal.com"
+                    href="https://www.rgcare.in"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: '#fff', textTransform: 'none' }}
                   >
-                    <i className="ti-world"></i>www.reddingtonglobal.com
+                    <i className="ti-world"></i>www.rgcare.in 
                   </a>
                 </span>
               </div>
@@ -137,8 +135,8 @@ const FooterS3 = () => {
                   </div>
                   <div className="text">
                     <h3>Opening Hours</h3>
-                    <span>Mon - Sat(8.00 - 6.00)</span>
-                    <span>Sunday - Closed</span>
+                    <span>Mon - Fri (11:00 - 8:00)</span>
+                    <span>Sat & Sunday - Closed</span>
                   </div>
                 </div>
                 <form className="form-fild">

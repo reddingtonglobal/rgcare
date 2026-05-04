@@ -5,7 +5,7 @@ import AboutS2 from '../../components/about2/about2';
 import TeamSection from '../../components/TeamSection/TeamSection';
 import PartnerSectionS3 from '../../components/PartnerSectionS3/PartnerSectionS3';
 import Scrollbar from '../../components/scrollbar/scrollbar';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/header_logo-removebg-preview.png';
 import FooterS3 from '../../components/footerS3/FooterS3';
 import OurMission from './OurMission';
 import AboutUs from './AboutUs';

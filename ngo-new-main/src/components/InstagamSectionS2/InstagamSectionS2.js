@@ -4,8 +4,8 @@ import Instagram from '../../api/Instagram';
 import NavbarS3 from '../../components/NavbarS3/NavbarS3';
 import PageTitle from '../../components/pagetitle/PageTitle';
 import Scrollbar from '../../components/scrollbar/scrollbar';
-// import Logo from '../../images/logo.png';
-import Logo from '../../images/logo.png';
+// import Logo from '../../images/header_logo-removebg-preview.png';
+import Logo from '../../images/header_logo-removebg-preview.png';
 import FooterS3 from '../../components/footerS3/FooterS3';
 
 import BgImg2 from '../../images/line-ing.svg';

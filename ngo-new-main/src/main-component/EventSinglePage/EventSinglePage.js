@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import NavbarS3 from '../../components/NavbarS3/NavbarS3';
 import PageTitle from '../../components/pagetitle/PageTitle';
 import Scrollbar from '../../components/scrollbar/scrollbar';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/header_logo-removebg-preview.png';
 import event from '../../api/event';
 import ContactForm from './ContactForm';
 import FooterS3 from '../../components/footerS3/FooterS3';

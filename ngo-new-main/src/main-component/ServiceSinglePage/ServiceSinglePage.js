@@ -5,7 +5,7 @@ import Scrollbar from '../../components/scrollbar/scrollbar';
 import Accordion from '../../components/Accordion/Accordion';
 import { useParams } from 'react-router-dom';
 import FundSidebar from './fund-sidebar';
-import logo from '../../images/logo.png';
+import logo from '../../images/header_logo-removebg-preview.png';
 import VideoModal from '../../components/ModalVideo/VideoModal';
 import FooterS3 from '../../components/footerS3/FooterS3';
 // import donationImg from '../../images/service-single/donation.jpg';
