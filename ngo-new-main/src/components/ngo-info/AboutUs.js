@@ -1,12 +1,8 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { about_us_points } from '../../main-component/AboutPage/AboutData';
+import whyRgCareImage from '../../images/WhatsApp Image 2026-05-04 at 4.49.37 PM.jpeg';
 
-const RGCareLink = () => (
-  <a className="link-lower-text" href={process.env.REACT_APP_BASE_URL || 'https://www.rgcare.in'} target="_blank" rel="noopener noreferrer">
-    www.rgcare.in
-  </a>
-);
 const AboutUs = () => {
   const settings = {
     dots: false,
@@ -46,38 +42,64 @@ const AboutUs = () => {
   };
 
   return (
-    <section className="causes-section-s3 custom-cause-container section-padding ">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-6 col-12">
-            <div className="section-title">
-              <span> Transforming Lives with Compassion and Action.</span>
+    <section
+      className="causes-section-s3 custom-cause-container"
+      style={{ padding: 0, overflow: 'hidden', position: 'relative' }}
+    >
+<div style={{ display: 'flex', alignItems: 'stretch', minHeight: '140px' }}>
 
-              <h2>
-                Why <span>RG</span> Care?
-              </h2>
-              <p>
-                The RG Care Foundation, accessible at <RGCareLink />, is a non-governmental organization (NGO) dedicated to enhancing the
-                quality of life for underprivileged communities.
-              </p>
-            </div>
-          </div>
+        {/* Left column — image fills full height */}
+        <div style={{ flex: '0 0 50%', width: '50%', overflow: 'hidden' }}>
+          <img
+            src={whyRgCareImage}
+            alt="Why RG Care"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              display: 'block',
+            }}
+          />
         </div>
+
+        {/* Right column — slider centered vertically */}
+        <div style={{
+          flex: '0 0 50%',
+          width: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '60px 40px 120px 40px',
+          boxSizing: 'border-box',
+        }}>
+          <Slider
+            {...settings}
+            className="causes-slider-s2"
+            style={{
+              position: 'relative',
+              transform: 'none',
+              right: 'auto',
+              top: 'auto',
+              maxWidth: '100%',
+              width: '100%',
+            }}
+          >
+            {about_us_points.map(point => (
+              <div className="causes-card cause-custom-min-height" key={point.id}>
+                <div className="text">
+                  <p key={point.id}>
+                    <h2 className="point-img">
+                      {point.img} {point.title}
+                    </h2>
+                    {point.Des}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </div>
+
       </div>
-      <Slider {...settings} className="causes-slider-s2">
-        {about_us_points.map(point => (
-          <div className="causes-card cause-custom-min-height" key={point.id}>
-            <div className="text">
-              <p key={point.id}>
-                <h2 className="point-img">
-                  {point.img} {point.title}
-                </h2>
-                {point.Des}
-              </p>
-            </div>
-          </div>
-        ))}
-      </Slider>
     </section>
   );
 };
