@@ -135,7 +135,7 @@ const FooterS3 = () => {
                   </div>
                   <div className="text">
                     <h3>Opening Hours</h3>
-                    <span>Mon - Fri (11:00 - 8:00)</span>
+                    <span>Mon - Fri (11:00AM - 8:00PM)</span>
                     <span>Sat & Sunday - Closed</span>
                   </div>
                 </div>
