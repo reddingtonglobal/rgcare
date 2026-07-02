@@ -32,7 +32,7 @@ const TeamSection = props => {
               <Link onClick={ClickHandler} to={`/our-team/${team.slug}`}>
                 <div className="vol-card">
                   <div className="image">
-                    <img src={team.timg} alt="" />
+                    <img src={team.timg} alt="" loading="lazy" decoding="async" />
                     <span className="hover-icon">
                       <i className="flaticon-share"></i>
                     </span>

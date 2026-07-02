@@ -1,5 +1,22 @@
 /* RG Care — Donation flow (interactive, multi-step, 3 amount-picker styles) */
 
+/* Load Razorpay checkout script once */
+function loadRazorpay() {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    if (document.getElementById("rzp-script")) {
+      document.getElementById("rzp-script").addEventListener("load", () => resolve(true));
+      return;
+    }
+    const s = document.createElement("script");
+    s.id = "rzp-script";
+    s.src = "https://checkout.razorpay.com/v1/checkout.js";
+    s.onload = () => resolve(true);
+    s.onerror = () => resolve(false);
+    document.body.appendChild(s);
+  });
+}
+
 const PAY_METHODS = [
   ["UPI", "smartphone"], ["Card", "credit-card"], ["Net banking", "landmark"],
   ["Razorpay", "zap"], ["QR code", "qr-code"],
@@ -105,6 +122,7 @@ function DonationWidget({ style = "tiered", compact = false, onClose }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", pan: "" });
   const [err, setErr] = useState({});
   const [busy, setBusy] = useState(false);
+  const [payError, setPayError] = useState("");
 
   const value = custom ? Number(custom) : amount;
   const imp = impactFor(value || 0, tiers);
@@ -121,9 +139,78 @@ function DonationWidget({ style = "tiered", compact = false, onClose }) {
     setErr(e);
     if (Object.keys(e).length === 0) setStep("pay");
   };
-  const pay = () => {
+
+  const pay = async () => {
     setBusy(true);
-    setTimeout(() => { setBusy(false); setStep("done"); }, 1400);
+    setPayError("");
+    try {
+      const loaded = await loadRazorpay();
+      if (!loaded) throw new Error("Failed to load payment gateway. Check your connection.");
+
+      /* 1. Create order on backend */
+      const orderRes = await fetch(window.RG_API + "/create-razorpay-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: value }),
+      });
+      const orderData = await orderRes.json();
+      if (!orderRes.ok) throw new Error(orderData.error || "Could not create order");
+
+      /* 2. Open Razorpay checkout */
+      await new Promise((resolve, reject) => {
+        const rzp = new window.Razorpay({
+          key: orderData.keyId,
+          amount: orderData.amount,
+          currency: orderData.currency,
+          name: "RG Care Foundation",
+          description: freq === "monthly" ? "Monthly Donation" : "One-time Donation",
+          order_id: orderData.orderId,
+          prefill: {
+            name: form.name,
+            email: form.email,
+            contact: form.phone,
+          },
+          theme: { color: "#2B6CB0" },
+          handler: async (response) => {
+            /* 3. Verify payment on backend */
+            try {
+              const verifyRes = await fetch(window.RG_API + "/verify-razorpay-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  donorDetails: {
+                    firstName: form.name.split(" ")[0],
+                    lastName: form.name.split(" ").slice(1).join(" ") || "-",
+                    email: form.email,
+                    address: "",
+                    note: form.pan ? "PAN: " + form.pan : "",
+                    amount: value,
+                  },
+                }),
+              });
+              const verifyData = await verifyRes.json();
+              if (verifyRes.ok && verifyData.success) {
+                resolve();
+              } else {
+                reject(new Error("Payment verification failed. Contact support."));
+              }
+            } catch (e) { reject(e); }
+          },
+          modal: { ondismiss: () => reject(new Error("cancelled")) },
+        });
+        rzp.on("payment.failed", (r) => reject(new Error(r.error.description || "Payment failed")));
+        rzp.open();
+      });
+
+      setStep("done");
+    } catch (e) {
+      if (e.message !== "cancelled") setPayError(e.message || "Payment could not be completed. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -193,28 +280,19 @@ function DonationWidget({ style = "tiered", compact = false, onClose }) {
             <span>{freq === "monthly" ? "Monthly gift" : "One-time gift"}</span>
             <b>{inr(value)}{freq === "monthly" ? "/mo" : ""}</b>
           </div>
-          <div className="rg-methods">
-            {PAY_METHODS.map(([m, ic]) => (
-              <button key={m} className={"rg-method" + (method === m ? " is-on" : "")} onClick={() => setMethod(m)}>
-                <Icon name={ic} size={20} /> {m}
-              </button>
-            ))}
+          <div className="rg-pay-info" style={{ padding: "14px 16px", background: "var(--blue-tint)", borderRadius: 10, fontSize: 14, marginBottom: 12 }}>
+            <Icon name="shield-check" size={16} style={{ marginRight: 8 }} />
+            Razorpay secure checkout — supports UPI, cards, net banking and wallets.
           </div>
-          {method === "QR code" ? (
-            <div className="rg-qr">
-              <div className="rg-qr-box"><Icon name="qr-code" size={120} /></div>
-              <p>Scan with any UPI app to pay {inr(value)}</p>
-            </div>
-          ) : (
-            <div className="rg-pay-mock">
-              <Icon name="shield-check" size={18} />
-              <span>You'll be redirected to a secure {method} checkout. This is a prototype — no real charge.</span>
+          {payError && (
+            <div style={{ color: "#c0392b", fontSize: 13, marginBottom: 10, padding: "8px 12px", background: "#fdf2f2", borderRadius: 8 }}>
+              {payError}
             </div>
           )}
           <button className="btn btn-rose rg-donate-go" onClick={pay} disabled={busy}>
-            {busy ? <><span className="rg-spin" /> Processing…</> : <><Icon name="heart" size={18} /> Donate {inr(value)}{freq === "monthly" ? "/mo" : ""}</>}
+            {busy ? <><span className="rg-spin" /> Opening payment…</> : <><Icon name="heart" size={18} /> Donate {inr(value)}{freq === "monthly" ? "/mo" : ""}</>}
           </button>
-          <div className="rg-donate-secure"><Icon name="lock" size={14} /> 256-bit encrypted · PCI-DSS compliant</div>
+          <div className="rg-donate-secure"><Icon name="lock" size={14} /> 256-bit encrypted · PCI-DSS compliant · 80G tax-deductible</div>
         </div>
       )}
 

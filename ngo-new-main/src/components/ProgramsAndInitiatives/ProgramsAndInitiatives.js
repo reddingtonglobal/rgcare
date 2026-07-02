@@ -86,7 +86,7 @@ const ProgramsAndInitiatives = () => {
                     <h3>{testitem.Des}</h3>
                     <div className="author">
                       <div className="image">
-                        <img src={testitem.img} alt="" />
+                        <img src={testitem.img} alt="" loading="lazy" decoding="async" />
                       </div>
                       <div className="text">
                         <h4>{testitem.title}</h4>

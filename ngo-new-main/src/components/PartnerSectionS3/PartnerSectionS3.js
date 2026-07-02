@@ -67,7 +67,7 @@ const PartnerSectionS3 = props => {
         <Slider {...settings}>
           {partners.map((partner, pitem) => (
             <li className="grid" key={pitem}>
-              <img src={partner.pimg} alt="" />
+              <img src={partner.pimg} alt="" loading="lazy" decoding="async" />
             </li>
           ))}
         </Slider>

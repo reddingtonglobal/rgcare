@@ -76,7 +76,33 @@ function Transparency() {
 function FeedbackCard() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", msg: "" });
   const [done, setDone] = useState(false);
-  const submit = (e) => { e.preventDefault(); if (form.name && form.msg) setDone(true); };
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.msg.trim()) return;
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch(window.RG_API + "/contact-us", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          message: form.msg,
+        }),
+      });
+      if (!res.ok) throw new Error("Server error");
+      setDone(true);
+    } catch (err) {
+      setError("Could not send your message. Please email us at care@rgcare.in");
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
     <div className="rg-feedback card">
       {done ? (
@@ -92,7 +118,7 @@ function FeedbackCard() {
           <p className="rg-feedback-sub">Ideas, questions or just hello — we'd love to hear from you.</p>
           <div className="rg-fields">
             <label className="rg-field"><span className="sr-only">Name</span>
-              <input placeholder="Your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
+              <input placeholder="Your name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required /></label>
             <div className="rg-fields-2">
               <label className="rg-field"><span className="sr-only">Email</span>
                 <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
@@ -100,9 +126,12 @@ function FeedbackCard() {
                 <input type="tel" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></label>
             </div>
             <label className="rg-field"><span className="sr-only">Feedback</span>
-              <textarea rows="3" placeholder="Your feedback" value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} /></label>
+              <textarea rows="3" placeholder="Your message *" value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} required /></label>
           </div>
-          <button type="submit" className="btn btn-rose" style={{ width: "100%" }}>Submit feedback</button>
+          {error && <p style={{ color: "#c0392b", fontSize: 13, margin: "4px 0 8px" }}>{error}</p>}
+          <button type="submit" className="btn btn-rose" style={{ width: "100%" }} disabled={busy}>
+            {busy ? "Sending…" : "Submit feedback"}
+          </button>
         </form>
       )}
     </div>

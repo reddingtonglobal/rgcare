@@ -2,7 +2,38 @@
 function ConsultForm() {
   const [f, setF] = useState({ name: "", company: "", email: "", phone: "", budget: "", msg: "" });
   const [done, setDone] = useState(false);
-  const submit = (e) => { e.preventDefault(); if (f.name && f.company && /^\S+@\S+\.\S+$/.test(f.email)) setDone(true); };
+  const [busy, setBusy] = useState(false);
+  const [submitErr, setSubmitErr] = useState("");
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!f.name || !f.company || !/^\S+@\S+\.\S+$/.test(f.email)) return;
+    setBusy(true);
+    setSubmitErr("");
+    try {
+      const res = await fetch(window.RG_API + "/contact-us", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: f.name,
+          email: f.email,
+          phone: f.phone,
+          subject: "CSR Partnership Consultation – " + f.company,
+          message: [
+            "Company: " + f.company,
+            f.budget ? "Budget: " + f.budget : "",
+            f.msg ? "Message: " + f.msg : "",
+          ].filter(Boolean).join("\n"),
+        }),
+      });
+      if (!res.ok) throw new Error("Server error");
+      setDone(true);
+    } catch (e) {
+      setSubmitErr("Could not submit. Please email partnerships@rgcare.in");
+    } finally {
+      setBusy(false);
+    }
+  };
   if (done) return (
     <div className="rg-vol-done" style={{ textAlign: "center", padding: 20 }}>
       <div className="rg-done-check"><Icon name="check" size={38} /></div>
@@ -34,7 +65,10 @@ function ConsultForm() {
         </label>
         <label className="rg-field"><span>What would you like to achieve?</span><textarea rows="3" value={f.msg} onChange={(e) => setF({ ...f, msg: e.target.value })} placeholder="Cause areas, geographies, timelines…" /></label>
       </div>
-      <button type="submit" className="btn btn-primary rg-donate-go"><Icon name="calendar" size={18} /> Request consultation</button>
+      {submitErr && <p style={{ color: "#c0392b", fontSize: 13, margin: "6px 0" }}>{submitErr}</p>}
+      <button type="submit" className="btn btn-primary rg-donate-go" disabled={busy}>
+        <Icon name="calendar" size={18} /> {busy ? "Sending…" : "Request consultation"}
+      </button>
     </form>
   );
 }

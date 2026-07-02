@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import SimpleReactValidator from 'simple-react-validator';
 import { Spinner } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitContactForm } from '../../store/actions/userActions';
 import SuccessModal from '../SuccessModal';
 
-const SERVICE_ID  = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-const PUBLIC_KEY  = process.env.REACT_APP_EMAILJS_USER_ID;
-
 const ContactForm = () => {
+  const dispatch = useDispatch();
+  const { isSubmitting } = useSelector(state => state.contact);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [forms, setForms] = useState({ name: '', email: '', message: '' });
   const [validator] = useState(
@@ -42,25 +41,14 @@ const ContactForm = () => {
     }
 
     validator.hideMessages();
-    setIsSubmitting(true);
     setSubmitError('');
 
-    const templateParams = {
-      from_name: forms.name,
-      from_email: forms.email,
-      message: forms.message,
-      reply_to: forms.email,
-    };
-
     try {
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      await dispatch(submitContactForm(forms));
       setIsModalOpen(true);
       setForms({ name: '', email: '', message: '' });
     } catch (error) {
-      console.error('EmailJS error:', error);
       setSubmitError('Something went wrong. Please try again or email us directly at info@rgcare.in');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

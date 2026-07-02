@@ -50,7 +50,7 @@ const InstagamSectionS2 = props => {
                       openModal(item.imag);
                     }}
                   >
-                    <img src={item.imag} alt={`Instagram ${item.id}`} className="img img-responsive" />
+                    <img src={item.imag} alt={`Instagram ${item.id}`} loading="lazy" decoding="async" className="img img-responsive" />
                     <div className="hover-content">
                       <i className="flaticon-camera"></i>
                     </div>

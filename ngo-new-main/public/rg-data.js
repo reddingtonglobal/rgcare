@@ -1,4 +1,8 @@
 /* RG Care Foundation — content model (plain data on window) */
+
+/* Backend API base – change to your production URL when deploying */
+window.RG_API = "http://localhost:5000/api";
+
 window.RG = {
   org: {
     name: "RG Care Foundation",

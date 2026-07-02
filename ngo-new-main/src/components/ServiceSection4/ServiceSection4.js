@@ -83,7 +83,7 @@ const ServiceSection4 = props => {
           <div className="service-card-s2" key={index}>
             <motion.div variants={variants} initial="hidden" animate="visible" whileHover="hover">
               <div className="icon">
-                <img src={service.image} alt="" style={{ width: '344px', height: '226px' }} />
+                <img src={service.image} alt="" loading="lazy" decoding="async" style={{ width: '344px', height: '226px' }} />
               </div>
               <div className="content" style={{ paddingTop: '85px' }}>
                 <h2>

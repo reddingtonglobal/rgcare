@@ -76,7 +76,7 @@ const CausesSection = props => {
             <motion.div variants={variants} initial="hidden" animate="visible" whileHover="hover">
               <div className="causes-card" key={'causes-card' + item}>
                 <div className="image">
-                  <img src={causesData.Cimg} alt="" style={{ width: '354px', height: '257px' }} />
+                  <img src={causesData.Cimg} alt="" loading="lazy" decoding="async" style={{ width: '354px', height: '257px' }} />
                 </div>
                 <div className="text">
                   {/* <h2>{causesData.title}</h2> */}

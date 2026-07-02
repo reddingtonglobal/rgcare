@@ -45,14 +45,38 @@ function Volunteer({ layout = "framed" }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", interest: interests[0], msg: "", resume: "" });
   const [err, setErr] = useState({});
   const [done, setDone] = useState(false);
-  const submit = (e) => {
+  const [busy, setBusy] = useState(false);
+  const [submitErr, setSubmitErr] = useState("");
+
+  const submit = async (e) => {
     e.preventDefault();
     const er = {};
     if (!form.name.trim()) er.name = "Required";
     if (!/^\S+@\S+\.\S+$/.test(form.email)) er.email = "Valid email needed";
     if (!/^[0-9]{10}$/.test(form.phone.replace(/\D/g, "").slice(-10))) er.phone = "10-digit phone";
     setErr(er);
-    if (Object.keys(er).length === 0) setDone(true);
+    if (Object.keys(er).length > 0) return;
+
+    setBusy(true);
+    setSubmitErr("");
+    try {
+      const res = await fetch(window.RG_API + "/volunteer-with-us", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.interest,
+          note: form.msg || "Interested in volunteering",
+        }),
+      });
+      if (!res.ok) throw new Error("Server error");
+      setDone(true);
+    } catch (e) {
+      setSubmitErr("Could not submit. Please email us at care@rgcare.in");
+    } finally {
+      setBusy(false);
+    }
   };
   const benefits = [
     ["users-round", "Community", "Join 1,800+ changemakers"],
@@ -137,7 +161,10 @@ function Volunteer({ layout = "framed" }) {
                     onChange={(e) => setForm({ ...form, msg: e.target.value })} />
                 </label>
               </div>
-              <button type="submit" className="btn btn-primary rg-donate-go">Submit application <Icon name="arrow-right" size={18} /></button>
+              <button type="submit" className="btn btn-primary rg-donate-go" disabled={busy}>
+                {busy ? "Submitting…" : <><span>Submit application</span> <Icon name="arrow-right" size={18} /></>}
+              </button>
+              {submitErr && <p style={{ color: "#c0392b", fontSize: 13, marginTop: 8 }}>{submitErr}</p>}
             </form>
           )}
         </div>

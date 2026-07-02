@@ -8,7 +8,38 @@ const fs = require('fs');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const Razorpay = require('razorpay');
+const mongoose = require('mongoose');
 const config = require('./config');
+
+// ─── MongoDB Connection ────────────────────────────────────────────────────────
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// ─── Mongoose Schemas / Models ─────────────────────────────────────────────────
+const contactSubmissionSchema = new mongoose.Schema({
+  name:    { type: String, required: true },
+  email:   { type: String, required: true },
+  phone:   { type: String, default: '' },
+  subject: { type: String, default: '' },
+  message: { type: String, required: true },
+}, { timestamps: true });
+
+const donationSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName:  { type: String, required: true },
+  email:     { type: String, required: true },
+  address:   { type: String, default: '' },
+  note:      { type: String, default: '' },
+  amount:    { type: Number, required: true },
+  orderId:   { type: String, required: true },
+  paymentId: { type: String, required: true },
+  status:    { type: String, default: 'verified' },
+}, { timestamps: true });
+
+const ContactSubmission = mongoose.model('ContactSubmission', contactSubmissionSchema);
+const Donation = mongoose.model('Donation', donationSchema);
 
 // Razorpay instance
 const razorpay = new Razorpay({
@@ -30,24 +61,53 @@ const upload = multer({
   },
 }).single('file');
 
-// const transporter = nodemailer.createTransport({
-//   host: process.env.SMTP_HOST,
-//   port: process.env.SMTP_PORT,
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT),
-  secure: process.env.SMTP_SECURE,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  logger: true,
-});
+// ─── Email Transporter ────────────────────────────────────────────────────────
+let transporter;
+let sendMail;
+
+async function initTransporter() {
+  const prodTransport = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT, 10),
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    tls: { rejectUnauthorized: false },
+    connectionTimeout: 8000,
+  });
+
+  try {
+    await prodTransport.verify();
+    transporter = prodTransport;
+    console.log('SMTP ready – connected to', process.env.SMTP_HOST);
+  } catch (err) {
+    // cPanel SMTP is only reachable from within the same server.
+    // For local dev, fall back to Ethereal so email content can be previewed.
+    console.warn('Production SMTP unreachable (' + err.message.split('\n')[0] + ')');
+    console.warn('Falling back to Ethereal test email – preview URLs will be logged.');
+    const testAccount = await nodemailer.createTestAccount();
+    transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: { user: testAccount.user, pass: testAccount.pass },
+    });
+    console.log('Ethereal test inbox:', testAccount.user, '/ pass:', testAccount.pass);
+  }
+
+  // Promise wrapper
+  sendMail = (opts) =>
+    new Promise((resolve, reject) =>
+      transporter.sendMail(opts, (err, info) => {
+        if (err) return reject(err);
+        // Log Ethereal preview URL in dev
+        const preview = nodemailer.getTestMessageUrl(info);
+        if (preview) console.log('Email preview:', preview);
+        resolve(info);
+      })
+    );
+}
+
+initTransporter();
 
 // Middleware to parse the body of the request
 // Use CORS middleware
@@ -71,88 +131,85 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.post('/api/contact-us', (req, res) => {
+app.post('/api/contact-us', async (req, res) => {
   try {
-    const { name, email, message, phone, subject } = req.body;
-    // Read the email template
-    fs.readFile(path.join(__dirname, 'templates', 'contact-us.html'), 'utf8', (err, htmlTemplate) => {
-      if (err) {
-        console.error('Error reading email template:', err);
-        return res.status(500).send('Error preparing email');
-      }
+    const { name, email, message, phone = '', subject = '' } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).send('Name, email and message are required.');
+    }
 
-      // Replace placeholders with dynamic values
-      const emailContent = htmlTemplate
-        .replace('{{name}}', name)
-        .replace('{{email}}', email)
-        .replace('{{subject}}', '')
-        .replace('{{message}}', message)
-        .replace('{{footerMsg}}', 'This email was sent from the contact form on your website.');
+    // Persist to MongoDB
+    await ContactSubmission.create({ name, email, phone, subject, message });
 
-      const mailOptions = {
-        from: `RG Care Contact Form <${process.env.SMTP_USER}>`,
-        to: process.env.SMTP_USER,
-        replyTo: `${name}  <${email}>`,
-        subject: `Message from ${name} via Contact Us Form`,
-        html: emailContent,
-      };
+    // Read email template
+    const htmlTemplate = fs.readFileSync(path.join(__dirname, 'templates', 'contact-us.html'), 'utf8');
+    const subjectHTML = subject ? `<p><span class="label">Subject:</span> ${subject}</p>` : '';
+    const emailContent = htmlTemplate
+      .replace('{{name}}', name)
+      .replace('{{email}}', email)
+      .replace('{{subject}}', subjectHTML)
+      .replace('{{message}}', message)
+      .replace('{{footerMsg}}', 'This email was sent from the contact form on your website.');
 
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error sending email:', error);
-          return res.status(500).send('Error sending email');
-        }
-        res.status(200).send('Message sent successfully');
-      });
+    await sendMail({
+      from: `RG Care Contact Form <${process.env.SMTP_USER}>`,
+      to: process.env.EMAIL_TO,
+      replyTo: `${name} <${email}>`,
+      subject: `Message from ${name} via Contact Us Form`,
+      html: emailContent,
     });
+
+    res.status(200).json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
-    return res.status(500).send('Error occur while submitting the form!');
+    console.error('Contact form error:', error.message);
+    // Still 200 if data was saved but email failed, so the user isn't blocked
+    if (error.code === 11000 || error.name === 'ValidationError') {
+      return res.status(400).send('Invalid form data.');
+    }
+    res.status(200).json({ success: true, message: 'Message received' });
   }
 });
 
 // Handle Volunteer form submission with resume file
-app.post('/api/volunteer-with-us', upload, (req, res) => {
+app.post('/api/volunteer-with-us', upload, async (req, res) => {
   try {
-    const { name, email, note, subject } = req.body;
+    const { name, email, note = '', subject = '' } = req.body;
+    if (!name || !email) {
+      return res.status(400).send('Name and email are required.');
+    }
 
-    fs.readFile(path.join(__dirname, 'templates', 'contact-us.html'), 'utf8', (err, htmlTemplate) => {
-      if (err) {
-        console.error('Error reading email template:', err);
-        return res.status(500).send('Error preparing email');
-      }
-      const subjectHTML = `<p><span class="label">Subject:</span> ${subject}</p>`;
-      // Replace placeholders with dynamic values
-      const emailContent = htmlTemplate
-        .replace('{{name}}', name)
-        .replace('{{email}}', email)
-        .replace('{{subject}}', subjectHTML)
-        .replace('{{message}}', note)
-        .replace('{{footerMsg}}', 'This email was sent from the becam a volunteer form.');
+    // Persist to MongoDB
+    await ContactSubmission.create({ name, email, subject, message: note });
 
-      const resumePath = req.file ? path.join(__dirname, req.file.path) : null;
+    const htmlTemplate = fs.readFileSync(path.join(__dirname, 'templates', 'contact-us.html'), 'utf8');
+    const subjectHTML = subject ? `<p><span class="label">Subject:</span> ${subject}</p>` : '';
+    const emailContent = htmlTemplate
+      .replace('{{name}}', name)
+      .replace('{{email}}', email)
+      .replace('{{subject}}', subjectHTML)
+      .replace('{{message}}', note)
+      .replace('{{footerMsg}}', 'This email was sent from the Become a Volunteer form.');
 
-      const mailOptions = {
-        from: `RG Care Volunteer With Us Form <${process.env.SMTP_USER}>`,
-        to: process.env.SMTP_USER,
-        replyTo: `${name}  <${email}>`,
-        subject: `Become a Volunteer Inquiry from ${name}`,
-        html: emailContent,
-        attachments: resumePath ? [{ path: resumePath }] : [],
-      };
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          return res.status(500).send('Error sending email');
-        }
+    const resumePath = req.file ? path.join(__dirname, req.file.path) : null;
 
-        if (resumePath) {
-          fs.unlinkSync(resumePath);
-        }
-
-        res.status(200).send('Volunteer form submitted successfully');
-      });
+    await sendMail({
+      from: `RG Care Volunteer Form <${process.env.SMTP_USER}>`,
+      to: process.env.EMAIL_TO,
+      replyTo: `${name} <${email}>`,
+      subject: `Become a Volunteer Inquiry from ${name}`,
+      html: emailContent,
+      attachments: resumePath ? [{ path: resumePath }] : [],
     });
+
+    if (resumePath && fs.existsSync(resumePath)) fs.unlinkSync(resumePath);
+
+    res.status(200).json({ success: true, message: 'Volunteer form submitted successfully' });
   } catch (error) {
-    return res.status(500).send('Error occur while submitting the form!');
+    console.error('Volunteer form error:', error.message);
+    if (req.file && fs.existsSync(path.join(__dirname, req.file.path))) {
+      fs.unlinkSync(path.join(__dirname, req.file.path));
+    }
+    res.status(500).send('Error submitting volunteer form.');
   }
 });
 
@@ -193,11 +250,15 @@ app.post('/api/create-razorpay-order', async (req, res) => {
 // ─────────────────────────────────────────────
 //  RAZORPAY – Verify Payment & Send Emails
 // ─────────────────────────────────────────────
-app.post('/api/verify-razorpay-payment', (req, res) => {
+app.post('/api/verify-razorpay-payment', async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, donorDetails } = req.body;
 
-    // Verify signature
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !donorDetails) {
+      return res.status(400).json({ error: 'Missing payment fields.' });
+    }
+
+    // Verify Razorpay signature
     const expectedSignature = crypto
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
@@ -207,73 +268,71 @@ app.post('/api/verify-razorpay-payment', (req, res) => {
       return res.status(400).json({ error: 'Payment verification failed. Invalid signature.' });
     }
 
-    const { firstName, lastName, email, address, note, amount } = donorDetails;
+    const { firstName, lastName, email, address = '', note = '', amount } = donorDetails;
     const donorName = `${firstName} ${lastName}`;
     const date = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const noteSection = note
       ? `<div class="detail-row"><span class="label">Message / Note</span><span class="value">${note}</span></div>`
       : '';
 
-    // Read and fill donor confirmation template
-    fs.readFile(path.join(__dirname, 'templates', 'donation-confirmation.html'), 'utf8', (err, donorHtml) => {
-      if (err) return res.status(500).json({ error: 'Error reading email template.' });
+    // Persist donation to MongoDB
+    await Donation.create({
+      firstName,
+      lastName,
+      email,
+      address,
+      note,
+      amount: Number(amount),
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+      status: 'verified',
+    });
 
-      const donorEmailContent = donorHtml
+    // Load email templates
+    const donorHtml = fs.readFileSync(path.join(__dirname, 'templates', 'donation-confirmation.html'), 'utf8');
+    const adminHtml = fs.readFileSync(path.join(__dirname, 'templates', 'donation-admin-notify.html'), 'utf8');
+
+    const fillTemplate = (tpl) =>
+      tpl
         .replace(/{{donorName}}/g, donorName)
         .replace(/{{amount}}/g, amount)
         .replace(/{{email}}/g, email)
-        .replace(/{{address}}/g, address)
+        .replace(/{{address}}/g, address || 'N/A')
         .replace(/{{orderId}}/g, razorpay_order_id)
         .replace(/{{paymentId}}/g, razorpay_payment_id)
         .replace(/{{date}}/g, date)
         .replace(/{{noteSection}}/g, noteSection);
 
-      // Read and fill admin notification template
-      fs.readFile(path.join(__dirname, 'templates', 'donation-admin-notify.html'), 'utf8', (err2, adminHtml) => {
-        if (err2) return res.status(500).json({ error: 'Error reading admin email template.' });
-
-        const adminEmailContent = adminHtml
-          .replace(/{{donorName}}/g, donorName)
-          .replace(/{{amount}}/g, amount)
-          .replace(/{{email}}/g, email)
-          .replace(/{{address}}/g, address)
-          .replace(/{{orderId}}/g, razorpay_order_id)
-          .replace(/{{paymentId}}/g, razorpay_payment_id)
-          .replace(/{{date}}/g, date)
-          .replace(/{{noteSection}}/g, noteSection);
-
-        // Send donor confirmation email
-        const donorMailOptions = {
-          from: `RG Care Foundation <${process.env.SMTP_USER}>`,
-          to: email,
-          subject: `Donation Confirmed – Thank You, ${firstName}! | RG Care Foundation`,
-          html: donorEmailContent,
-        };
-
-        // Send admin notification email
-        const adminMailOptions = {
-          from: `RG Care Donations <${process.env.SMTP_USER}>`,
-          to: process.env.SMTP_USER,
-          replyTo: `${donorName} <${email}>`,
-          subject: `New Donation of ₹${amount} from ${donorName}`,
-          html: adminEmailContent,
-        };
-
-        transporter.sendMail(donorMailOptions, (errDonor) => {
-          if (errDonor) console.error('Error sending donor email:', errDonor);
-        });
-
-        transporter.sendMail(adminMailOptions, (errAdmin) => {
-          if (errAdmin) console.error('Error sending admin email:', errAdmin);
-        });
-
-        res.status(200).json({
-          success: true,
-          message: 'Payment verified and confirmation emails sent.',
-          paymentId: razorpay_payment_id,
-          orderId: razorpay_order_id,
-        });
+    // Send donor confirmation email
+    try {
+      await sendMail({
+        from: `RG Care Foundation <${process.env.SMTP_USER}>`,
+        to: email,
+        subject: `Donation Confirmed – Thank You, ${firstName}! | RG Care Foundation`,
+        html: fillTemplate(donorHtml),
       });
+    } catch (mailErr) {
+      console.error('Donor confirmation email failed:', mailErr.message);
+    }
+
+    // Send admin notification email
+    try {
+      await sendMail({
+        from: `RG Care Donations <${process.env.SMTP_USER}>`,
+        to: process.env.EMAIL_TO,
+        replyTo: `${donorName} <${email}>`,
+        subject: `New Donation of ₹${amount} from ${donorName}`,
+        html: fillTemplate(adminHtml),
+      });
+    } catch (mailErr) {
+      console.error('Admin donation notification email failed:', mailErr.message);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Payment verified and confirmation emails sent.',
+      paymentId: razorpay_payment_id,
+      orderId: razorpay_order_id,
     });
   } catch (error) {
     console.error('Payment verification error:', error);

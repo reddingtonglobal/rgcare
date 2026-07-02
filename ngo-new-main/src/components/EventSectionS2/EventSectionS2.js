@@ -15,7 +15,7 @@ const EventSectionS2 = () => {
           {event.map((eventitem, item) => (
             <div className="col-xl-4 col-lg-6 col-md-6 col-12" key={item}>
               <div className="card-mv">
-                <img src={eventitem.eimg} alt="" />
+                <img src={eventitem.eimg} alt="" loading="lazy" decoding="async" />
                 <div className="icon">
                   <Link onClick={ClickHandler} to={`/get-involved/${eventitem.slug}`}>
                     <i>+</i>

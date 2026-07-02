@@ -28,7 +28,7 @@ const Gallery = ({ gallery }) => {
                   <div className="grid" key={pitem}>
                     <motion.div className={`gallery-`.pitem} variants={variants} initial="hidden" animate="visible" whileHover="hover">
                       <div className="img-holder">
-                        <img src={image.src} alt="" style={{ cursor: 'pointer' }} onClick={() => handleImageClick(pitem)} />
+                        <img src={image.src} alt="" loading="lazy" decoding="async" style={{ cursor: 'pointer' }} onClick={() => handleImageClick(pitem)} />
                       </div>
                     </motion.div>
                   </div>
