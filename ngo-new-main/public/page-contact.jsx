@@ -6,7 +6,7 @@ function ContactPage() {
     <>
       <Nav solid active="Contact" />
       <PageHero tint="blue"
-        trail={[["Home", "RG Care Foundation.html"], ["Contact"]]}
+        trail={[["Home", "/"], ["Contact"]]}
         eyebrow="Contact us"
         title="We'd love to hear from you."
         lead="Whether you want to donate, partner, volunteer or just say hello — reach the right team below and we'll get back within two working days."

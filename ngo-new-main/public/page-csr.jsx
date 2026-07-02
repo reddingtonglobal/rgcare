@@ -79,7 +79,7 @@ function CSRPage() {
     <>
       <Nav solid active="CSR" />
       <PageHero tint="blue"
-        trail={[["Home", "RG Care Foundation.html"], ["CSR Partnerships"]]}
+        trail={[["Home", "/"], ["CSR Partnerships"]]}
         eyebrow="CSR partnerships"
         title="A CSR partner your board can trust."
         lead="Compliance-ready, transparent and measurable. We turn your CSR budget into outcomes you can report with confidence."
@@ -216,7 +216,7 @@ function CSRPage() {
             <Eyebrow>CSR compliance</Eyebrow>
             <h2 className="rg-h2" style={{ marginTop: 12, marginBottom: 20 }}>Eligible, certified, clean</h2>
             <CheckList items={C.compliance} />
-            <a href="transparency.html" className="rg-textlink">See our registrations &amp; audits <Icon name="arrow-right" size={16} /></a>
+            <a href="transparency" className="rg-textlink">See our registrations &amp; audits <Icon name="arrow-right" size={16} /></a>
           </div>
         </div>
       </section>

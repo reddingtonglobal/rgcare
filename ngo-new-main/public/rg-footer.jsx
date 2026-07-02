@@ -57,11 +57,11 @@ function Transparency() {
               <span className="chip" key={c}><Icon name="badge-check" size={15} /> {c}</span>
             ))}
           </div>
-          <a href="transparency.html" className="rg-textlink">See all documents & policies <Icon name="arrow-right" size={16} /></a>
+          <a href="transparency" className="rg-textlink">See all documents & policies <Icon name="arrow-right" size={16} /></a>
         </div>
         <div className="rg-transp-right">
           {docs.map(([t, ic]) => (
-            <a href="transparency.html" className="rg-transp-dl card" key={t}>
+            <a href="transparency" className="rg-transp-dl card" key={t}>
               <span className="rg-transp-dl-ic"><Icon name={ic} size={20} /></span>
               <b>{t}</b>
               <Icon name="chevron-right" size={18} cls="rg-transp-dl-arr" />
@@ -224,7 +224,7 @@ function Footer({ onDonate }) {
         <div className="rg-footer-bottom">
           <span>© {new Date().getFullYear()} {o.legal}. All rights reserved.</span>
           <div className="rg-footer-legal">
-            <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="donate.html">Refund policy</a><a href="transparency.html">Compliance &amp; documents</a>
+            <a href="privacy">Privacy</a><a href="terms">Terms</a><a href="donate">Refund policy</a><a href="transparency">Compliance &amp; documents</a>
           </div>
         </div>
       </div>

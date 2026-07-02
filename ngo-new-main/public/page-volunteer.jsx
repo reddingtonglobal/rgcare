@@ -5,7 +5,7 @@ function VolunteerPage() {
     <>
       <Nav solid active="Volunteer" />
       <PageHero tint="blue"
-        trail={[["Home", "RG Care Foundation.html"], ["Volunteer"]]}
+        trail={[["Home", "/"], ["Volunteer"]]}
         eyebrow="Volunteer"
         title="Give your time. Change a life — including yours."
         lead="Teach a class, run a health camp, mentor a young person. Whatever your skill, there's a place for you among 1,800+ changemakers."

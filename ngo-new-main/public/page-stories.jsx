@@ -13,13 +13,13 @@ function StoriesPage() {
     <>
       <Nav solid active="Stories" />
       <PageHero tint="cream"
-        trail={[["Home", "RG Care Foundation.html"], ["Success Stories"]]}
+        trail={[["Home", "/"], ["Success Stories"]]}
         eyebrow="Success stories"
         title="Change has a face — and a name."
         lead="Behind every number is a person whose life turned a corner. These are a few of them."
         actions={<>
-          <a href="donate.html" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Fund more stories</a>
-          <a href="volunteer.html" className="btn btn-ghost btn-lg">Help write them</a>
+          <a href="donate" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Fund more stories</a>
+          <a href="volunteer" className="btn btn-ghost btn-lg">Help write them</a>
         </>}
       />
 

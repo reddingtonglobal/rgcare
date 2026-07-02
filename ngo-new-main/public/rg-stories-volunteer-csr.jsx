@@ -202,7 +202,7 @@ function CSR() {
             </div>
             <div className="rg-csr-cta-btns">
               <button className="btn btn-rose btn-lg"><Icon name="calendar" size={18} /> Schedule consultation</button>
-              <a href="csr.html" className="btn btn-on-dark btn-lg"><Icon name="arrow-right" size={18} /> Explore CSR partnerships</a>
+              <a href="csr" className="btn btn-on-dark btn-lg"><Icon name="arrow-right" size={18} /> Explore CSR partnerships</a>
             </div>
           </div>
         </Reveal>

@@ -5,13 +5,13 @@ function DonatePage() {
     <>
       <Nav solid />
       <PageHero tint="rose"
-        trail={[["Home", "RG Care Foundation.html"], ["Donate"]]}
+        trail={[["Home", "/"], ["Donate"]]}
         eyebrow="Donate"
         title="Your gift becomes a school day, a check-up, a fresh start."
         lead="Every contribution is tracked end-to-end and backed by audited reporting. Give once or monthly — and see exactly what your money does."
         actions={<>
           <a href="#give" className="btn btn-rose btn-lg"><Icon name="heart" size={18} /> Give now</a>
-          <a href="transparency.html" className="btn btn-ghost btn-lg">See where it goes</a>
+          <a href="transparency" className="btn btn-ghost btn-lg">See where it goes</a>
         </>}
       />
 
@@ -62,7 +62,7 @@ function DonatePage() {
             <span className="rg-iconcard-ic" style={{ background: "#fff", color: "var(--accent-deep)" }}><Icon name="shield-check" size={24} /></span>
             <h3 className="rg-h3" style={{ marginTop: 14 }}>Transparency you can verify</h3>
             <p className="rg-prose" style={{ marginTop: 10, marginBottom: 18 }}>We publish audited statements and quarterly impact reports. Every rupee is accounted for, from disbursal to delivery.</p>
-            <a href="transparency.html" className="btn btn-primary">View reports &amp; registrations</a>
+            <a href="transparency" className="btn btn-primary">View reports &amp; registrations</a>
           </div>
         </div>
       </section>
@@ -81,7 +81,7 @@ function DonatePage() {
               <span className="rg-iconcard-ic" style={{ background: "var(--blue-tint)", color: "var(--accent-deep)" }}><Icon name="graduation-cap" size={24} /></span>
               <h3 className="rg-h3" style={{ marginTop: 14 }}>Sponsor a program</h3>
               <p className="rg-prose" style={{ marginTop: 10, marginBottom: 18 }}>Fund a child's education, a health camp or a skilling cohort — and receive updates on the people your gift supports.</p>
-              <a href="contact.html" className="btn btn-ghost">Talk to our team</a>
+              <a href="contact" className="btn btn-ghost">Talk to our team</a>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 /* RG Care — Nav + Hero (3 variants) + Trust bar + floating metrics */
 
-function Logo({ onDark = false, href = "RG Care Foundation.html" }) {
+function Logo({ onDark = false, href = "/" }) {
   return (
     <a href={href} className="rg-logo" aria-label="RG Care Foundation home">
       <img className="rg-logo-mark" src="assets/rg-hands.png" alt="" width="50" height="34" />
@@ -35,7 +35,7 @@ function Nav({ onDonate, solid = false, active = "" }) {
         <div className="rg-nav-actions">
           {onDonate
             ? <button className="btn btn-rose btn-sm" onClick={onDonate}><Icon name="heart" size={16} /> Donate</button>
-            : <a className="btn btn-rose btn-sm" href="donate.html"><Icon name="heart" size={16} /> Donate</a>}
+            : <a className="btn btn-rose btn-sm" href="donate"><Icon name="heart" size={16} /> Donate</a>}
           <button className="rg-burger" aria-label="Menu" onClick={() => setOpen(o => !o)}
                   style={{ color: scrolled ? "var(--brown-deep)" : "#fff" }}>
             <Icon name={open ? "x" : "menu"} size={24} />
@@ -49,7 +49,7 @@ function Nav({ onDonate, solid = false, active = "" }) {
           ))}
           {onDonate
             ? <button className="btn btn-rose" onClick={() => { setOpen(false); onDonate(); }} style={{ marginTop: 8 }}><Icon name="heart" size={16} /> Donate now</button>
-            : <a className="btn btn-rose" href="donate.html" style={{ marginTop: 8 }}><Icon name="heart" size={16} /> Donate now</a>}
+            : <a className="btn btn-rose" href="donate" style={{ marginTop: 8 }}><Icon name="heart" size={16} /> Donate now</a>}
         </div>
       )}
     </header>

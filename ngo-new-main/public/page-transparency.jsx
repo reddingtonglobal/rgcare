@@ -21,7 +21,7 @@ function TransparencyPage() {
     <>
       <Nav solid />
       <PageHero tint="blue"
-        trail={[["Home", "RG Care Foundation.html"], ["Transparency"]]}
+        trail={[["Home", "/"], ["Transparency"]]}
         eyebrow="Transparency"
         title="Built on good governance from day one."
         lead="We're a registered NGO with our certifications, policies and safeguards already in place. Verify our credentials and read every policy that governs how we work."
@@ -73,7 +73,7 @@ function TransparencyPage() {
             <Eyebrow>Governance</Eyebrow>
             <h2 className="rg-h2" style={{ marginTop: 12, marginBottom: 20 }}>How we stay accountable</h2>
             <CheckList items={window.RGP.about.governance} />
-            <a href="about.html" className="rg-textlink">Meet our leadership <Icon name="arrow-right" size={16} /></a>
+            <a href="about" className="rg-textlink">Meet our leadership <Icon name="arrow-right" size={16} /></a>
           </div>
         </div>
       </section>

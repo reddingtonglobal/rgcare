@@ -121,7 +121,14 @@ initTransporter();
 // );
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'production' ? [process.env.APP_URL, process.env.APP_URL] : '*',
+    origin: process.env.NODE_ENV === 'production'
+      ? [
+          process.env.APP_URL,                                   // https://rgcare.in
+          process.env.APP_URL.replace('://', '://www.'),         // https://www.rgcare.in
+          'https://rgcare.in',
+          'https://www.rgcare.in',
+        ]
+      : '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
     credentials: true,

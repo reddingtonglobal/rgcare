@@ -1,7 +1,14 @@
 /* RG Care Foundation — content model (plain data on window) */
 
-/* Backend API base – change to your production URL when deploying */
-window.RG_API = "http://localhost:5000/api";
+/*
+ * Backend API base URL.
+ * - On localhost → hit Node.js directly on port 5000
+ * - On any live domain → use a relative /api path (Apache proxies to Node.js)
+ */
+window.RG_API = (
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+) ? 'http://localhost:5000/api' : '/api';
 
 window.RG = {
   org: {
@@ -125,15 +132,15 @@ window.RG = {
   ],
 
   nav: [
-    ["About", "about.html"], ["Programs", "programs.html"], ["Stories", "stories.html"],
-    ["Volunteer", "volunteer.html"], ["CSR", "csr.html"], ["Contact", "contact.html"],
+    ["About", "about"], ["Programs", "programs"], ["Stories", "stories"],
+    ["Volunteer", "volunteer"], ["CSR", "csr"], ["Contact", "contact"],
   ],
 };
 
 window.RG_FOOTER_HREFS = {
-  "Education": "programs.html#education", "Healthcare": "programs.html#healthcare",
-  "Skill development": "programs.html#skills", "Community & women": "programs.html#community",
-  "Donate": "donate.html", "Volunteer": "volunteer.html", "CSR partnership": "csr.html", "Fundraise": "volunteer.html",
-  "Home": "RG Care Foundation.html", "About us": "about.html", "Impact": "about.html",
-  "Stories": "stories.html", "Transparency": "transparency.html", "Contact us": "contact.html",
+  "Education": "programs#education", "Healthcare": "programs#healthcare",
+  "Skill development": "programs#skills", "Community & women": "programs#community",
+  "Donate": "donate", "Volunteer": "volunteer", "CSR partnership": "csr", "Fundraise": "volunteer",
+  "Home": "/", "About us": "about", "Impact": "about",
+  "Stories": "stories", "Transparency": "transparency", "Contact us": "contact",
 };

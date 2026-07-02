@@ -1,0 +1,29 @@
+Options -Indexes
+
+# ── HTTPS redirect ──────────────────────────────────────────────────
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# ── www → non-www ──────────────────────────────────────────────────
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+# ── Proxy /api/* to Node.js backend on port 5000 ───────────────────
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*)$ http://127.0.0.1:5000/api/$1 [P,L]
+ProxyPreserveHost On
+
+# ── Clean URLs: serve /about as about.html, etc. ───────────────────
+# Skip if the file already exists (assets, images, etc.)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# If the request + .html exists, serve it transparently
+RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
+
+# ── 404 fallback → index.html (for SPA-style routing if needed) ────
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteRule ^ index.html [L]
