@@ -15,6 +15,17 @@ set -e
 
 RGCARE_DIR="/root/rgcare"
 BACKEND_DIR="$RGCARE_DIR/backend-ngo-local-main"
+
+# ── Self-update: keep ~/deploy_rgcare.sh in sync with the repo copy ───────────
+SELF_IN_REPO="$RGCARE_DIR/deploy_rgcare.sh"
+SELF_IN_HOME="$HOME/deploy_rgcare.sh"
+if [ -f "$SELF_IN_REPO" ] && ! diff -q "$SELF_IN_REPO" "$SELF_IN_HOME" > /dev/null 2>&1; then
+  echo "==> Updating ~/deploy_rgcare.sh from repo..."
+  cp "$SELF_IN_REPO" "$SELF_IN_HOME"
+  chmod +x "$SELF_IN_HOME"
+  echo "    Done. Re-running updated script..."
+  exec "$SELF_IN_HOME" "$@"
+fi
 FRONTEND_PUBLIC="$RGCARE_DIR/ngo-new-main/public"
 NGINX_CONF_SRC="$BACKEND_DIR/nginx-rgcare.conf"
 NGINX_CONF_DEST="/etc/nginx/sites-available/rgcare.in"
