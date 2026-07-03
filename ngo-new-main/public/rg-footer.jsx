@@ -14,7 +14,7 @@ function Insights() {
             <Reveal><Eyebrow>From the field</Eyebrow></Reveal>
             <Reveal delay={70} as="h2" className="rg-h2">Notes & guides from the ground</Reveal>
           </div>
-          <Reveal delay={120}><a href="blog.html" className="rg-textlink">All articles <Icon name="arrow-right" size={16} /></a></Reveal>
+          <Reveal delay={120}><a href="/stories" className="rg-textlink">All articles <Icon name="arrow-right" size={16} /></a></Reveal>
         </div>
         <div className="rg-insights-grid">
           {posts.map((p, i) => (
@@ -23,7 +23,7 @@ function Insights() {
               <h3 className="rg-post-title">{p.title}</h3>
               <div className="rg-post-foot">
                 <span className="rg-post-read"><Icon name="clock" size={14} /> {p.read} read</span>
-                <a href="blog.html" className="rg-textlink sm">Read <Icon name="arrow-right" size={15} /></a>
+                <a href="/stories" className="rg-textlink sm">Read <Icon name="arrow-right" size={15} /></a>
               </div>
             </Reveal>
           ))}

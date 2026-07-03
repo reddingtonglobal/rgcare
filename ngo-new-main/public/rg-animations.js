@@ -17,6 +17,7 @@
     reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     runHeroAnimations();
+    runImageSlotAnimations();
     if (!reduced) {
       runScrollAnimations();
     }
@@ -303,6 +304,63 @@
     }
 
     ScrollTrigger.refresh();
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     IMAGE SLOTS — graceful fade-in when JSON resolves
+     Hides grey placeholder boxes, fades real images in once
+     image-slots-state.json is fetched (shared browser cache
+     with the preload hint + image-slot.js internal fetch).
+  ═══════════════════════════════════════════════════════════ */
+  function runImageSlotAnimations() {
+    var slots = Array.from(document.querySelectorAll("image-slot"));
+    if (!slots.length) return;
+
+    // Hide immediately so grey placeholder boxes never flash
+    gsap.set(slots, { opacity: 0 });
+
+    function revealSlots() {
+      // Two rAFs: first for image-slot.js to finish rendering, second for paint
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          var vh = window.innerHeight;
+          var heroSlots = [], scrollSlots = [];
+          slots.forEach(function (s) {
+            var rect = s.getBoundingClientRect();
+            (rect.top < vh + 120 ? heroSlots : scrollSlots).push(s);
+          });
+
+          // In-viewport (hero) slots: fade in immediately
+          if (heroSlots.length) {
+            gsap.to(heroSlots, {
+              opacity: 1, duration: 0.9, ease: "power2.out", stagger: 0.08,
+            });
+          }
+
+          // Below-fold slots: scroll-triggered reveal
+          scrollSlots.forEach(function (s) {
+            gsap.to(s, {
+              opacity: 1, duration: 0.75, ease: "power2.out",
+              scrollTrigger: { trigger: s, start: "top 88%", once: true },
+            });
+          });
+        });
+      });
+    }
+
+    // Fetch same JSON (browser deduplicates with preload hint + image-slot.js fetch)
+    fetch("image-slots-state.json").then(revealSlots).catch(function () {
+      gsap.set(slots, { opacity: 1 }); // no state file — show empty slots
+    });
+
+    // Hard fallback: force-show after 4s regardless
+    setTimeout(function () {
+      slots.forEach(function (s) {
+        if (parseFloat(gsap.getProperty(s, "opacity")) < 0.5) {
+          gsap.to(s, { opacity: 1, duration: 0.5, ease: "power2.out" });
+        }
+      });
+    }, 4000);
   }
 
   /* ═══════════════════════════════════════════════════════════
