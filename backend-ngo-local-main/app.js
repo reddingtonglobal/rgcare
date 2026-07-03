@@ -229,7 +229,7 @@ app.post('/api/volunteer-with-us', upload, async (req, res) => {
       replyTo: `${name} <${email}>`,
       subject: `Become a Volunteer Inquiry from ${name}`,
       html: emailContent,
-      attachments: resumePath ? [{ path: resumePath }] : [],
+      attachments: resumePath ? [{ path: resumePath, filename: req.file.originalname }] : [],
     });
 
     if (resumePath && fs.existsSync(resumePath)) fs.unlinkSync(resumePath);
