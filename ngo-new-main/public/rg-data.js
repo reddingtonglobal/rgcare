@@ -47,7 +47,7 @@ window.RG = {
     { icon: "heart-pulse",    value: 31200, suffix: "+", label: "Healthcare beneficiaries", note: "Mobile health camps & maternal care" },
     { icon: "users-round",    value: 7600,  suffix: "+", label: "Families supported", note: "Rations, livelihoods & emergency relief" },
     { icon: "wrench",         value: 4300,  suffix: "+", label: "Youth skilled", note: "Digital, vocational & solar training" },
-    { icon: "venus",          value: 5100,  suffix: "+", label: "Women empowered", note: "Self-help groups & micro-enterprise" },
+    { icon: "circle-user",    value: 5100,  suffix: "+", label: "Women empowered", note: "Self-help groups & micro-enterprise" },
     { icon: "award",          value: 2200,  suffix: "+", label: "Scholarships funded", note: "Direct support to weaker-section students" },
   ],
 

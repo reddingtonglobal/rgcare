@@ -148,13 +148,20 @@ function DonationWidget({ style = "tiered", compact = false, onClose }) {
       if (!loaded) throw new Error("Failed to load payment gateway. Check your connection.");
 
       /* 1. Create order on backend */
-      const orderRes = await fetch(window.RG_API + "/create-razorpay-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: value }),
-      });
-      const orderData = await orderRes.json();
-      if (!orderRes.ok) throw new Error(orderData.error || "Could not create order");
+      let orderRes, orderData;
+      try {
+        orderRes = await fetch(window.RG_API + "/create-razorpay-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: value }),
+        });
+        const orderText = await orderRes.text();
+        try { orderData = JSON.parse(orderText); }
+        catch { throw new Error("Server is temporarily unavailable. Please try again in a moment."); }
+      } catch (fetchErr) {
+        throw new Error("Could not reach the payment server. Please check your connection and try again.");
+      }
+      if (!orderRes.ok) throw new Error(orderData.error || "Could not create order. Please try again.");
 
       /* 2. Open Razorpay checkout */
       await new Promise((resolve, reject) => {
@@ -191,13 +198,14 @@ function DonationWidget({ style = "tiered", compact = false, onClose }) {
                   },
                 }),
               });
-              const verifyData = await verifyRes.json();
+              let verifyData;
+              try { verifyData = await verifyRes.json(); } catch { verifyData = {}; }
               if (verifyRes.ok && verifyData.success) {
                 resolve();
               } else {
-                reject(new Error("Payment verification failed. Contact support."));
+                reject(new Error("Payment received but verification failed. Please contact support with your payment ID."));
               }
-            } catch (e) { reject(e); }
+            } catch (e) { reject(new Error("Verification error. Your payment may have gone through — please contact us before trying again.")); }
           },
           modal: { ondismiss: () => reject(new Error("cancelled")) },
         });
@@ -207,7 +215,10 @@ function DonationWidget({ style = "tiered", compact = false, onClose }) {
 
       setStep("done");
     } catch (e) {
-      if (e.message !== "cancelled") setPayError(e.message || "Payment could not be completed. Please try again.");
+      if (e.message !== "cancelled") {
+        const msg = (e.message && e.message.length < 200) ? e.message : "Payment could not be completed. Please try again.";
+        setPayError(msg);
+      }
     } finally {
       setBusy(false);
     }

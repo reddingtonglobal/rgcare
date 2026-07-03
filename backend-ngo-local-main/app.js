@@ -224,6 +224,15 @@ app.get('/', (req, res) => {
   res.send('Backend is running!');
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    time: new Date().toISOString(),
+    env: process.env.NODE_ENV,
+    db: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+  });
+});
+
 // ─────────────────────────────────────────────
 //  RAZORPAY – Create Order
 // ─────────────────────────────────────────────
