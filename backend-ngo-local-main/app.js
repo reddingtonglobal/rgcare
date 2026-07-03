@@ -92,10 +92,6 @@ async function initTransporter() {
     await prodTransport.verify();
     transporter = prodTransport;
     console.log('SMTP ready – connected to', process.env.SMTP_HOST);
-  try {
-    await prodTransport.verify();
-    transporter = prodTransport;
-    console.log('SMTP ready – connected to', process.env.SMTP_HOST);
   } catch (err) {
     console.error('SMTP connection failed:', err.message.split('\n')[0]);
 
