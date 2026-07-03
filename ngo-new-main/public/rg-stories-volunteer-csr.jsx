@@ -42,7 +42,7 @@ function Stories() {
 
 function Volunteer({ layout = "framed" }) {
   const interests = window.RG.interests;
-  const [form, setForm] = useState({ name: "", email: "", phone: "", interest: interests[0], msg: "", resume: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", interest: interests[0], msg: "", resume: null });
   const [err, setErr] = useState({});
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -60,15 +60,16 @@ function Volunteer({ layout = "framed" }) {
     setBusy(true);
     setSubmitErr("");
     try {
+      const fd = new FormData();
+      fd.append("name", form.name);
+      fd.append("email", form.email);
+      fd.append("subject", form.interest);
+      fd.append("note", form.msg || "Interested in volunteering");
+      if (form.resume) fd.append("file", form.resume);
+
       const res = await fetch(window.RG_API + "/volunteer-with-us", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          subject: form.interest,
-          note: form.msg || "Interested in volunteering",
-        }),
+        body: fd,
       });
       if (!res.ok) throw new Error("Server error");
       setDone(true);
@@ -120,7 +121,7 @@ function Volunteer({ layout = "framed" }) {
               <div className="rg-done-check"><Icon name="check" size={38} /></div>
               <h3 className="rg-donate-h">You're in, {form.name.split(" ")[0]}!</h3>
               <p className="rg-donate-sub">Our volunteer team will reach out within 48 hours about <b>{form.interest}</b> opportunities near you.</p>
-              <button className="btn btn-ghost btn-sm" onClick={() => { setForm({ name: "", email: "", phone: "", interest: interests[0], msg: "", resume: "" }); setDone(false); }}>Submit another</button>
+              <button className="btn btn-ghost btn-sm" onClick={() => { setForm({ name: "", email: "", phone: "", interest: interests[0], msg: "", resume: null }); setDone(false); }}>Submit another</button>
             </div>
           ) : (
             <form onSubmit={submit}>
@@ -150,9 +151,9 @@ function Volunteer({ layout = "framed" }) {
                   <span>Resume (optional)</span>
                   <div className={"rg-upload" + (form.resume ? " has-file" : "")}>
                     <Icon name={form.resume ? "file-check" : "upload"} size={18} />
-                    <span>{form.resume || "Drop a PDF or click to upload"}</span>
+                    <span>{form.resume?.name || "Drop a PDF or click to upload"}</span>
                     <input type="file" accept=".pdf,.doc,.docx"
-                      onChange={(e) => setForm({ ...form, resume: e.target.files[0]?.name || "" })} />
+                      onChange={(e) => setForm({ ...form, resume: e.target.files[0] || null })} />
                   </div>
                 </label>
                 <label className="rg-field">
