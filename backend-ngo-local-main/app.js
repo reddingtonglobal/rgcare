@@ -138,6 +138,9 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
+app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+
 app.post('/api/contact-us', async (req, res) => {
   try {
     const { name, email, message, phone = '', subject = '' } = req.body;
