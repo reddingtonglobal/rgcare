@@ -15,22 +15,13 @@ set -e
 
 RGCARE_DIR="/root/rgcare"
 BACKEND_DIR="$RGCARE_DIR/backend-ngo-local-main"
-
-# ── Self-update: keep ~/deploy_rgcare.sh in sync with the repo copy ───────────
-SELF_IN_REPO="$RGCARE_DIR/deploy_rgcare.sh"
-SELF_IN_HOME="$HOME/deploy_rgcare.sh"
-if [ -f "$SELF_IN_REPO" ] && ! diff -q "$SELF_IN_REPO" "$SELF_IN_HOME" > /dev/null 2>&1; then
-  echo "==> Updating ~/deploy_rgcare.sh from repo..."
-  cp "$SELF_IN_REPO" "$SELF_IN_HOME"
-  chmod +x "$SELF_IN_HOME"
-  echo "    Done. Re-running updated script..."
-  exec "$SELF_IN_HOME" "$@"
-fi
 FRONTEND_SRC="$RGCARE_DIR/ngo-new-main/public"
 FRONTEND_DEST="/var/www/rgcare/public"
 NGINX_CONF_SRC="$BACKEND_DIR/nginx-rgcare.conf"
 NGINX_CONF_DEST="/etc/nginx/sites-available/rgcare.in"
 NGINX_CONF_LINK="/etc/nginx/sites-enabled/rgcare.in"
+SELF_IN_REPO="$RGCARE_DIR/deploy_rgcare.sh"
+SELF_IN_HOME="$HOME/deploy_rgcare.sh"
 
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
@@ -43,6 +34,14 @@ echo "==> [1/5] Pulling latest code from GitHub..."
 cd "$RGCARE_DIR"
 git pull origin main
 echo ""
+
+# ── Self-update AFTER git pull: re-exec if deploy script itself changed ───────
+if [ -f "$SELF_IN_REPO" ] && ! diff -q "$SELF_IN_REPO" "$SELF_IN_HOME" > /dev/null 2>&1; then
+  echo "==> deploy_rgcare.sh updated — re-running new version..."
+  cp "$SELF_IN_REPO" "$SELF_IN_HOME"
+  chmod +x "$SELF_IN_HOME"
+  exec bash "$SELF_IN_HOME" "$@"
+fi
 
 # ── 2. Backend: install deps ──────────────────────────────────────────────────
 echo "==> [2/5] Installing backend dependencies..."
