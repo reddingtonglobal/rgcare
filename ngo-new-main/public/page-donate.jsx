@@ -90,7 +90,7 @@ function DonatePage() {
       <FAQ items={D.faqs} title="Donation questions, answered" />
 
       <CTABand tone="rose" title="Two minutes. A lifetime of impact." text="Join hundreds of donors funding this month's relief drive."
-        primary={["Donate now", "#give"]} secondary={["Become a volunteer", "volunteer.html"]} />
+        primary={["Donate now", "#give"]} secondary={["Become a volunteer", "/volunteer"]} />
 
       <PageFoot />
     </>

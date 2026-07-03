@@ -72,7 +72,7 @@ function FAQ({ items, title = "Frequently asked questions", eyebrow = "FAQs" }) 
   );
 }
 
-function CTABand({ title, text, primary = ["Donate now", "donate.html"], secondary, tone = "blue" }) {
+function CTABand({ title, text, primary = ["Donate now", "/donate"], secondary, tone = "blue" }) {
   return (
     <section className="section rg-ctaband-sec">
       <div className="wrap wrap-wide">
@@ -158,7 +158,7 @@ function Timeline({ items }) {
 }
 
 function PageFoot({ active }) {
-  const goDonate = () => { window.location.href = "donate.html"; };
+  const goDonate = () => { window.location.href = "/donate"; };
   return (
     <>
       <Footer onDonate={goDonate} />

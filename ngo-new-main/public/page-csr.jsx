@@ -254,7 +254,7 @@ function CSRPage() {
       <FAQ items={C.faqs} title="CSR partnership questions" />
 
       <CTABand tone="brown" title="Turn your CSR budget into outcomes you can stand behind." text="Compliance, transparency and measurable impact — the partner your stakeholders expect."
-        primary={["Book a consultation", "#consult"]} secondary={["Email the team", "contact.html"]} />
+        primary={["Book a consultation", "#consult"]} secondary={["Email the team", "/contact"]} />
 
       <PageFoot />
     </>

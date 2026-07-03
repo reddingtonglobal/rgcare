@@ -130,7 +130,7 @@ function AboutPage() {
       <FAQ items={A.faqs} title="About RG Care — your questions" />
 
       <CTABand title="Be part of what comes next." text="Whether you give, volunteer or partner, you make the next classroom, clinic and livelihood possible."
-        primary={["Donate now", "donate.html"]} secondary={["Become a volunteer", "volunteer.html"]} />
+        primary={["Donate now", "/donate"]} secondary={["Become a volunteer", "/volunteer"]} />
 
       <PageFoot />
     </>

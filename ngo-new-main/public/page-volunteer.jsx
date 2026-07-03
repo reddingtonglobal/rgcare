@@ -67,7 +67,7 @@ function VolunteerPage() {
       <FAQ items={V.faqs} title="Volunteering — your questions" />
 
       <CTABand title="Ready to make your weekends matter?" text="Join 1,800+ volunteers building a fairer future, one community at a time."
-        primary={["Apply to volunteer", "#apply"]} secondary={["See success stories", "stories.html"]} />
+        primary={["Apply to volunteer", "#apply"]} secondary={["See success stories", "/stories"]} />
 
       <PageFoot />
     </>

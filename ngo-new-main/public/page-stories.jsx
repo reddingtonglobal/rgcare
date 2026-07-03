@@ -60,7 +60,7 @@ function StoriesPage() {
       </section>
 
       <CTABand title="Your support writes the next story." text="Every gift is a child back in school, a mother with an income, a young person with a future."
-        primary={["Donate now", "donate.html"]} secondary={["Meet our team", "about.html"]} />
+        primary={["Donate now", "/donate"]} secondary={["Meet our team", "/about"]} />
 
       <PageFoot />
     </>

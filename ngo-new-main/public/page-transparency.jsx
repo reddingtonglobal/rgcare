@@ -79,7 +79,7 @@ function TransparencyPage() {
       </section>
 
       <CTABand title="Transparency is a promise we keep." text="Give with confidence — and verify it any time."
-        primary={["Donate now", "donate.html"]} secondary={["Talk to us", "contact.html"]} />
+        primary={["Donate now", "/donate"]} secondary={["Talk to us", "/contact"]} />
 
       <PageFoot />
     </>

@@ -95,7 +95,7 @@ function ProgramsPage() {
       {PROGS.map((p, i) => <ProgramBlock key={PROG_IDS[i]} p={p} id={PROG_IDS[i]} i={i} />)}
 
       <CTABand title="Every program starts with a gift." text="Pick a cause that moves you, or let us direct your support where it's needed most this month."
-        primary={["Donate now", "donate.html"]} secondary={["See success stories", "stories.html"]} />
+        primary={["Donate now", "/donate"]} secondary={["See success stories", "/stories"]} />
 
       <PageFoot />
     </>

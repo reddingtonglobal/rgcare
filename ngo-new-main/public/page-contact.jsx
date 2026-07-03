@@ -70,7 +70,7 @@ function ContactPage() {
       <FAQ items={C.faqs} title="Contact — quick answers" />
 
       <CTABand title="Prefer to act right now?" text="You don't need to wait for a reply to make a difference today."
-        primary={["Donate now", "donate.html"]} secondary={["Volunteer", "volunteer.html"]} />
+        primary={["Donate now", "/donate"]} secondary={["Volunteer", "/volunteer"]} />
 
       <PageFoot />
     </>
