@@ -26,7 +26,8 @@ if [ -f "$SELF_IN_REPO" ] && ! diff -q "$SELF_IN_REPO" "$SELF_IN_HOME" > /dev/nu
   echo "    Done. Re-running updated script..."
   exec "$SELF_IN_HOME" "$@"
 fi
-FRONTEND_PUBLIC="$RGCARE_DIR/ngo-new-main/public"
+FRONTEND_SRC="$RGCARE_DIR/ngo-new-main/public"
+FRONTEND_DEST="/var/www/rgcare/public"
 NGINX_CONF_SRC="$BACKEND_DIR/nginx-rgcare.conf"
 NGINX_CONF_DEST="/etc/nginx/sites-available/rgcare.in"
 NGINX_CONF_LINK="/etc/nginx/sites-enabled/rgcare.in"
@@ -71,8 +72,15 @@ fi
 pm2 save
 echo ""
 
-# ── 4. Nginx: apply config + reload ──────────────────────────────────────────
-echo "==> [4/5] Configuring and reloading nginx..."
+# ── 4. Nginx: sync frontend files + apply config + reload ───────────────────
+echo "==> [4/5] Deploying frontend and reloading nginx..."
+
+# Sync public/ files to web root (accessible by www-data)
+mkdir -p "$FRONTEND_DEST"
+rsync -a --delete \
+  --exclude=".DS_Store" \
+  --exclude="*.map" \
+  "$FRONTEND_SRC/" "$FRONTEND_DEST/"
 
 # Install our nginx config on first deploy (or if it changed)
 if [ ! -L "$NGINX_CONF_LINK" ] || ! diff -q "$NGINX_CONF_SRC" "$NGINX_CONF_DEST" > /dev/null 2>&1; then
@@ -84,7 +92,7 @@ if [ ! -L "$NGINX_CONF_LINK" ] || ! diff -q "$NGINX_CONF_SRC" "$NGINX_CONF_DEST"
 fi
 
 nginx -t && systemctl reload nginx
-echo "    Nginx reloaded — serving frontend from: $FRONTEND_PUBLIC"
+echo "    Nginx reloaded — serving frontend from: $FRONTEND_DEST"
 echo ""
 
 # ── 5. Smoke test ─────────────────────────────────────────────────────────────
