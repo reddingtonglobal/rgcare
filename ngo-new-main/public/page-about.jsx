@@ -12,8 +12,8 @@ function AboutPage() {
         lead="Reddington Global Care Foundation works on the ground to educate, heal and empower India's most underserved communities — with governance and measurable impact at its core."
         media="about-hero" mediaLabel="Team / beneficiaries (real photo)"
         actions={<>
-          <a href="donate" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Support our work</a>
-          <a href="transparency" className="btn btn-ghost btn-lg">See our governance</a>
+          <a href="/donate" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Support our work</a>
+          <a href="/transparency" className="btn btn-ghost btn-lg">See our governance</a>
         </>}
       />
 
@@ -109,7 +109,7 @@ function AboutPage() {
             <h2 className="rg-h2" style={{ marginTop: 12 }}>Accountable by design</h2>
             <p className="rg-prose" style={{ marginTop: 14, marginBottom: 22 }}>Strong governance isn't a footnote — it's how we earn trust. Our structure keeps us honest and our funders confident.</p>
             <CheckList items={A.governance} />
-            <a href="transparency" className="rg-textlink">View transparency & reports <Icon name="arrow-right" size={16} /></a>
+            <a href="/transparency" className="rg-textlink">View transparency & reports <Icon name="arrow-right" size={16} /></a>
           </div>
           <div className="rg-feature-media">
             <Slot id="about-gov" label="Board / office (real photo)" radius={24} style={{ width: "100%", height: 420 }} />

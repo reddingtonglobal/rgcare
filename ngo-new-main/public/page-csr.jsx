@@ -216,7 +216,7 @@ function CSRPage() {
             <Eyebrow>CSR compliance</Eyebrow>
             <h2 className="rg-h2" style={{ marginTop: 12, marginBottom: 20 }}>Eligible, certified, clean</h2>
             <CheckList items={C.compliance} />
-            <a href="transparency" className="rg-textlink">See our registrations &amp; audits <Icon name="arrow-right" size={16} /></a>
+            <a href="/transparency" className="rg-textlink">See our registrations &amp; audits <Icon name="arrow-right" size={16} /></a>
           </div>
         </div>
       </section>

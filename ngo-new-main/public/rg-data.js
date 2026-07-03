@@ -132,15 +132,15 @@ window.RG = {
   ],
 
   nav: [
-    ["About", "about"], ["Programs", "programs"], ["Stories", "stories"],
-    ["Volunteer", "volunteer"], ["CSR", "csr"], ["Contact", "contact"],
+    ["About", "/about"], ["Programs", "/programs"], ["Stories", "/stories"],
+    ["Volunteer", "/volunteer"], ["CSR", "/csr"], ["Contact", "/contact"],
   ],
 };
 
 window.RG_FOOTER_HREFS = {
-  "Education": "programs#education", "Healthcare": "programs#healthcare",
-  "Skill development": "programs#skills", "Community & women": "programs#community",
-  "Donate": "donate", "Volunteer": "volunteer", "CSR partnership": "csr", "Fundraise": "volunteer",
-  "Home": "/", "About us": "about", "Impact": "about",
-  "Stories": "stories", "Transparency": "transparency", "Contact us": "contact",
+  "Education": "/programs#education", "Healthcare": "/programs#healthcare",
+  "Skill development": "/programs#skills", "Community & women": "/programs#community",
+  "Donate": "/donate", "Volunteer": "/volunteer", "CSR partnership": "/csr", "Fundraise": "/volunteer",
+  "Home": "/", "About us": "/about", "Impact": "/about",
+  "Stories": "/stories", "Transparency": "/transparency", "Contact us": "/contact",
 };

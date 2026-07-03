@@ -35,7 +35,7 @@ function Nav({ onDonate, solid = false, active = "" }) {
         <div className="rg-nav-actions">
           {onDonate
             ? <button className="btn btn-rose btn-sm" onClick={onDonate}><Icon name="heart" size={16} /> Donate</button>
-            : <a className="btn btn-rose btn-sm" href="donate"><Icon name="heart" size={16} /> Donate</a>}
+            : <a className="btn btn-rose btn-sm" href="/donate"><Icon name="heart" size={16} /> Donate</a>}
           <button className="rg-burger" aria-label="Menu" onClick={() => setOpen(o => !o)}
                   style={{ color: scrolled ? "var(--brown-deep)" : "#fff" }}>
             <Icon name={open ? "x" : "menu"} size={24} />

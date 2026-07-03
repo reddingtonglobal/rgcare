@@ -18,8 +18,8 @@ function StoriesPage() {
         title="Change has a face — and a name."
         lead="Behind every number is a person whose life turned a corner. These are a few of them."
         actions={<>
-          <a href="donate" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Fund more stories</a>
-          <a href="volunteer" className="btn btn-ghost btn-lg">Help write them</a>
+          <a href="/donate" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Fund more stories</a>
+          <a href="/volunteer" className="btn btn-ghost btn-lg">Help write them</a>
         </>}
       />
 

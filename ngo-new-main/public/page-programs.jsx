@@ -58,8 +58,8 @@ function ProgramBlock({ p, id, i }) {
             <h3 className="rg-h3">Help power {p.tag.toLowerCase()}</h3>
             <p className="rg-prose" style={{ marginTop: 8, marginBottom: 18 }}>Your support turns this program into real outcomes for real people.</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-              <a href="donate" className="btn btn-primary"><Icon name="heart" size={17} /> Donate to this program</a>
-              <a href="volunteer" className="btn btn-ghost">Volunteer</a>
+              <a href="/donate" className="btn btn-primary"><Icon name="heart" size={17} /> Donate to this program</a>
+              <a href="/volunteer" className="btn btn-ghost">Volunteer</a>
             </div>
           </div>
         </div>
@@ -78,8 +78,8 @@ function ProgramsPage() {
         title="Four programs. One outcome: communities that thrive."
         lead="Each program is designed to compound — a child who stays in school, a mother who earns, a village that no longer waits for help to arrive."
         actions={<>
-          <a href="donate" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Donate now</a>
-          <a href="csr" className="btn btn-ghost btn-lg">Partner with us</a>
+          <a href="/donate" className="btn btn-primary btn-lg"><Icon name="heart" size={18} /> Donate now</a>
+          <a href="/csr" className="btn btn-ghost btn-lg">Partner with us</a>
         </>}
       />
 

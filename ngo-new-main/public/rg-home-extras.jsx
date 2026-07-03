@@ -50,7 +50,7 @@ function FounderMessage() {
               <span className="rg-founder-signname">{f.name}</span>
               <span className="rg-founder-role">{f.role}</span>
             </div>
-            <a href="about" className="btn btn-ghost"><Icon name="arrow-right" size={16} /> Read full message</a>
+            <a href="/about" className="btn btn-ghost"><Icon name="arrow-right" size={16} /> Read full message</a>
           </div>
         </div>
       </div>

@@ -74,7 +74,7 @@ function Impact() {
         <Reveal delay={120}>
           <div className="rg-impact-foot">
             <span><Icon name="map" size={18} /> Active across <b>12 states</b> from Delhi to Tamil Nadu</span>
-            <a href="transparency" className="rg-textlink sm">See our credentials <Icon name="arrow-right" size={15} /></a>
+            <a href="/transparency" className="rg-textlink sm">See our credentials <Icon name="arrow-right" size={15} /></a>
           </div>
         </Reveal>
       </div>
