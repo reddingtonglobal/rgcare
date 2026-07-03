@@ -11,6 +11,19 @@ const Razorpay = require('razorpay');
 const mongoose = require('mongoose');
 const config = require('./config');
 
+// ─── Prevent unhandled errors from crashing the process ───────────────────────
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err.message);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+});
+
+// ─── Ensure required directories exist ────────────────────────────────────────
+['uploads', 'logs'].forEach(dir => {
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+});
+
 // ─── MongoDB Connection ────────────────────────────────────────────────────────
 mongoose
   .connect(process.env.MONGODB_URI)

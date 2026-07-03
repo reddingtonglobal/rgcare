@@ -21,6 +21,7 @@ echo "==> .env found"
 
 # ── 2. Create logs directory (required by ecosystem.config.js) ─────────────
 mkdir -p logs
+mkdir -p uploads
 echo "==> logs/ directory ready"
 
 # ── 3. Install production dependencies ──────────────────────────────────────
