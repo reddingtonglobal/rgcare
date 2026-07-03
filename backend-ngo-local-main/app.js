@@ -79,19 +79,31 @@ async function initTransporter() {
     await prodTransport.verify();
     transporter = prodTransport;
     console.log('SMTP ready – connected to', process.env.SMTP_HOST);
+  try {
+    await prodTransport.verify();
+    transporter = prodTransport;
+    console.log('SMTP ready – connected to', process.env.SMTP_HOST);
   } catch (err) {
-    // cPanel SMTP is only reachable from within the same server.
-    // For local dev, fall back to Ethereal so email content can be previewed.
-    console.warn('Production SMTP unreachable (' + err.message.split('\n')[0] + ')');
-    console.warn('Falling back to Ethereal test email – preview URLs will be logged.');
-    const testAccount = await nodemailer.createTestAccount();
-    transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false,
-      auth: { user: testAccount.user, pass: testAccount.pass },
-    });
-    console.log('Ethereal test inbox:', testAccount.user, '/ pass:', testAccount.pass);
+    console.error('SMTP connection failed:', err.message.split('\n')[0]);
+
+    if (process.env.NODE_ENV === 'production') {
+      // In production, keep using the configured transport anyway —
+      // individual sends may still succeed even if verify() timed out.
+      console.warn('Running in production — keeping configured SMTP transport despite verify() failure.');
+      console.warn('Check SMTP_HOST/PORT/PASS in .env if emails are not arriving.');
+      transporter = prodTransport;
+    } else {
+      // Local dev only: fall back to Ethereal so email content can be previewed.
+      console.warn('Falling back to Ethereal test email – preview URLs will be logged.');
+      const testAccount = await nodemailer.createTestAccount();
+      transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
+        secure: false,
+        auth: { user: testAccount.user, pass: testAccount.pass },
+      });
+      console.log('Ethereal test inbox:', testAccount.user, '/ pass:', testAccount.pass);
+    }
   }
 
   // Promise wrapper

@@ -1,0 +1,160 @@
+/* ============================================================
+   RG CARE FOUNDATION — Additional Responsive Refinements
+   Fills gaps not covered by rg-components.css
+   Breakpoints: 1200px · 920px · 720px · 560px · 400px
+   ============================================================ */
+
+/* ─── HERO: mobile refinements ───────────────────────────────── */
+@media (max-width: 920px) {
+  .rg-hero { min-height: 88vh; }
+  .rg-hero-full-inner, .rg-hero-centered-inner { padding-top: 96px; padding-bottom: 80px; }
+  .rg-hero-full-inner h1, .rg-hero-centered-inner h1 { font-size: clamp(32px, 7vw, 52px); }
+  .rg-trust-bar { flex-wrap: wrap; gap: 10px; }
+  .rg-trust-bar > * { font-size: 13px; }
+}
+@media (max-width: 560px) {
+  .rg-hero { min-height: 92vh; }
+  .rg-hero-full-inner h1, .rg-hero-centered-inner h1 { font-size: clamp(28px, 8vw, 40px); }
+  .rg-hero-actions { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .rg-hero-actions .btn { width: 100%; justify-content: center; }
+  .rg-floatmetrics { gap: 8px; }
+}
+
+/* ─── NAV: mobile ────────────────────────────────────────────── */
+@media (max-width: 920px) {
+  .rg-nav-inner { padding: 0 clamp(16px, 4vw, 32px); }
+}
+
+/* ─── SECTION HEADS: two-column → stack ─────────────────────── */
+@media (max-width: 720px) {
+  .rg-section-head.two { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .rg-section-sub.left { max-width: 100%; }
+}
+
+/* ─── ABOUT: mobile ──────────────────────────────────────────── */
+@media (max-width: 920px) {
+  .rg-about-grid { gap: 28px; }
+  .rg-about-points { grid-template-columns: 1fr; }
+}
+
+/* ─── IMPACT: smaller phone → 1 col ─────────────────────────── */
+@media (max-width: 400px) {
+  .rg-impact-grid { grid-template-columns: 1fr !important; }
+  .rg-impact-card { padding: 22px 18px; }
+}
+
+/* ─── CSR SECTION ────────────────────────────────────────────── */
+@media (max-width: 920px) {
+  .rg-csr-cta { flex-direction: column; text-align: center; }
+  .rg-csr-cta-btns { justify-content: center; }
+  .rg-csr-cta-h { max-width: 100%; }
+}
+@media (max-width: 560px) {
+  .rg-csr-grid { gap: 12px; }
+}
+
+/* ─── STORIES: mobile ────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .rg-story-body { padding: 24px 20px; }
+}
+@media (max-width: 560px) {
+  .rg-story-quote { font-size: 18px; }
+}
+
+/* ─── VOLUNTEER: mobile ──────────────────────────────────────── */
+@media (max-width: 920px) {
+  .rg-vol-sub { max-width: 100%; }
+  .rg-vol-card { width: 100%; max-width: 100%; }
+}
+
+/* ─── TRANSPARENCY TABLE: mobile scroll ──────────────────────── */
+@media (max-width: 720px) {
+  .rg-opt-wrap { -webkit-overflow-scrolling: touch; border-radius: var(--r); }
+  .rg-opt-table { min-width: 560px; }
+  .rg-transp-right { grid-template-columns: 1fr; }
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .rg-footer-cols { grid-template-columns: 1fr 1fr; }
+  .rg-news { max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .rg-footer-cols { grid-template-columns: 1fr; }
+  .rg-footer-cta { flex-direction: column; text-align: center; }
+  .rg-footer-cta .btn { width: 100%; justify-content: center; }
+  .rg-footer-bottom { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+  .rg-footer-legal { justify-content: center; gap: 12px; }
+  .rg-compliance-row { gap: 8px 16px; }
+  .rg-compliance-row span { font-size: 12.5px; }
+}
+
+/* ─── STICKY BAR ─────────────────────────────────────────────── */
+@media (max-width: 400px) {
+  .rg-stickybar { flex-wrap: wrap; gap: 10px; }
+  .rg-stickybar .btn { width: 100%; }
+}
+
+/* ─── DONATION MODAL ─────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .rg-modal-backdrop { padding: 12px 8px; align-items: flex-end; }
+  .rg-donate-widget.is-modal { border-radius: var(--r-lg) var(--r-lg) 0 0; max-height: 92vh; overflow-y: auto; }
+  .rg-donate-amounts { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .rg-amount-btn { padding: 12px 8px; font-size: 15px; }
+  .rg-donate-tabs { gap: 4px; }
+  .rg-donate-step { padding: 20px 16px; }
+  .rg-done-actions { flex-direction: column; }
+  .rg-done-actions .btn { width: 100%; }
+}
+@media (max-width: 400px) {
+  .rg-donate-amounts { grid-template-columns: 1fr 1fr; }
+}
+
+/* ─── GENERAL BUTTON GROUPS ──────────────────────────────────── */
+@media (max-width: 560px) {
+  .rg-phero-actions, .rg-ctaband-btns { flex-wrap: wrap; gap: 10px; }
+  .rg-phero-actions .btn, .rg-ctaband-btns .btn { min-width: 160px; }
+}
+@media (max-width: 400px) {
+  .btn-lg { padding: 14px 22px; font-size: 15px; }
+  .rg-phero-actions .btn, .rg-ctaband-btns .btn { width: 100%; justify-content: center; }
+}
+
+/* ─── PAGE HERO (sub-pages) ──────────────────────────────────── */
+@media (max-width: 920px) {
+  .rg-phero-inner { gap: 28px; }
+  .rg-phero-title { font-size: clamp(28px, 6vw, 46px); }
+  .rg-phero-media { display: none; } /* hide hero image on mobile — shows text full-width */
+  .rg-phero.has-media .rg-phero-inner { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .rg-phero { padding: 100px 0 48px; }
+  .rg-phero-lead { font-size: 16px; }
+}
+
+/* ─── PROGRAMS CARDS ─────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .rg-prog { padding: 22px 18px; }
+}
+
+/* ─── CONTACT PAGE ───────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .rg-contact-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── FORMS ──────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .rg-field input, .rg-field textarea, .rg-field select { font-size: 16px; } /* prevent iOS zoom */
+}
+
+/* ─── BLOG / INSIGHTS PAGE ───────────────────────────────────── */
+@media (max-width: 720px) {
+  .rg-blog-feature { grid-template-columns: 1fr; }
+  .rg-blog-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── LARGE DESKTOP: constrain content ───────────────────────── */
+@media (min-width: 1600px) {
+  .rg-hero-full-inner { max-width: 880px; }
+  .rg-hero-centered-inner { max-width: 780px; }
+}
