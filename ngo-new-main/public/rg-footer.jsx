@@ -213,7 +213,7 @@ function Footer({ onDonate }) {
             <span><b>CSR</b> {o.csr1}</span>
           </div>
           <p className="rg-compliance-note">
-            Registered office: {o.regOffice} · 12A &amp; 80G provisional registrations granted 17 Jun 2025 (valid AY 2026–27 to 2028–29).
+            Registered office: {o.regOffice} · 12A &amp; 80G registrations granted 2024 (valid AY 2024–25 to 2026–27).
             Donations are voluntary and may qualify for tax benefits under Section 80G of the Income Tax Act, subject to applicable laws.
           </p>
           <p className="rg-compliance-note">
@@ -222,7 +222,7 @@ function Footer({ onDonate }) {
         </div>
 
         <div className="rg-footer-bottom">
-          <span>© {new Date().getFullYear()} {o.legal}. All rights reserved.</span>
+          <span>© 2024 {o.legal}. All rights reserved.</span>
           <div className="rg-footer-legal">
             <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refund.html">Refund policy</a><a href="compliance.html">Compliance &amp; documents</a>
           </div>

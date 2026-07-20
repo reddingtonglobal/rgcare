@@ -11,9 +11,9 @@ window.RGP = {
       { icon: "shield-check", t: "Governance", d: "A professional board, clear policies and strong compliance underpin everything we do." },
     ],
     timeline: [
-      { year: "2022", t: "RG Care is founded", d: "Reddington Global Care Foundation is founded on 15 June 2022 with a single after-school centre and a promise: educate the underprivileged, wherever they are." },
-      { year: "2023", t: "Healthcare on wheels", d: "Our first mobile medical units reach villages with no nearby clinic, serving thousands in their first year." },
-      { year: "2024", t: "Skilling at scale", d: "Vocational and digital-literacy programs launch across multiple states, partnering with industry for real jobs." },
+      { year: "2024", t: "RG Care is founded", d: "Reddington Global Care Foundation is registered and founded in 2024 with a single after-school centre and a promise: educate the underprivileged, wherever they are." },
+      { year: "2024", t: "Healthcare on wheels", d: "Our first mobile medical units reach villages with no nearby clinic, serving thousands in their first year." },
+      { year: "2025", t: "Skilling at scale", d: "Vocational and digital-literacy programs launch across multiple states, partnering with industry for real jobs." },
       { year: "2025", t: "CSR partnerships grow", d: "Corporate partners join us for measurable, compliance-ready impact — multiplying reach into 100+ communities." },
       { year: "2026", t: "100+ communities", d: "A growing footprint with women-led self-help groups, scholarships and solar-skilling driving lasting change." },
     ],

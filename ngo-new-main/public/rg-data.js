@@ -25,7 +25,7 @@ window.RG = {
     city: "Gurgaon, Haryana",
     hoursWeek: "Mon – Fri · 11:00 – 20:00",
     hoursWeekend: "Sat & Sun · Closed",
-    // Verified registration details (provisional 12A/80G granted 17 Jun 2025)
+    // Verified registration details (NGO registered 2024; 12A/80G granted 2024)
     pan: "AAOCR4691R",
     darpan: "HR/2025/0641773",
     reg: "NGO Darpan HR/2025/0641773",
@@ -39,7 +39,7 @@ window.RG = {
     { k: "lives",        value: 50000, suffix: "+", label: "Lives impacted" },
     { k: "beneficiaries", value: 8000, suffix: "+", label: "Beneficiaries supported" },
     { k: "communities", value: 100,   suffix: "+", label: "Communities reached" },
-    { k: "years",       value: 4,     suffix: "+", label: "Years of service" },
+    { k: "years",       value: 2,     suffix: "+", label: "Years of service" },
   ],
 
   impact: [
@@ -108,7 +108,7 @@ window.RG = {
     name: "Vishal & Jyotsana Bora",
     role: "Founders, RG Care Foundation",
     slot: "founder-photo",
-    message: "We started RG Care Foundation in 2022 with one belief — that every person deserves the dignity of opportunity. Behind every number on this page is a real child back in school, a mother earning for the first time, a family with light in their home. We promise to treat your support the way we'd want ours treated: with care, with proof, and with a smile at the other end.",
+    message: "We started RG Care Foundation in 2024 with one belief — that every person deserves the dignity of opportunity. Behind every number on this page is a real child back in school, a mother earning for the first time, a family with light in their home. We promise to treat your support the way we'd want ours treated: with care, with proof, and with a smile at the other end.",
   },
 
   testimonials: [

@@ -11,7 +11,7 @@ function CompliancePage() {
     { ic: "receipt-indian-rupee", label: "80G Registration", value: "AAOCR4691RF20251 (valid AY 2026–27 to 2028–29)" },
     { ic: "badge-check", label: "12A Registration", value: "AAOCR4691RE20251 (valid AY 2026–27 to 2028–29)" },
     { ic: "briefcase",   label: "CSR-1 Filing", value: "CSR-1 eligible — MCA registered" },
-    { ic: "calendar",    label: "Registration Date", value: "Provisional 12A/80G granted 17 June 2025" },
+    { ic: "calendar",    label: "Registration Date", value: "Registered & 12A/80G granted 2024 (valid AY 2024\u201325 to 2026\u201327)" },
   ];
 
   const policies = [
