@@ -178,7 +178,7 @@ function FieldVideo({ onDonate }) {
       <div className="wrap wrap-wide rg-fieldvid">
         <div className="rg-fieldvid-media rg-fieldvid-portrait">
           <video ref={vref} className="rg-fieldvid-video" src="assets/field-film.mp4"
-                 muted playsInline preload="auto"></video>
+                 muted playsInline preload="none"></video>
         </div>
         <div className="rg-fieldvid-body">
           <Eyebrow>From the field</Eyebrow>
@@ -225,7 +225,7 @@ function FieldGallery() {
           {clips.map((c) => (
             <figure className="rg-fgal-item" key={c.src}>
               <div className="rg-fgal-frame">
-                <video src={c.src} autoPlay muted loop playsInline preload="auto"></video>
+                <video src={c.src} autoPlay muted loop playsInline preload="none" loading="lazy"></video>
               </div>
               <figcaption>{c.cap}</figcaption>
             </figure>

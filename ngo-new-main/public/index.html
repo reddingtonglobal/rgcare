@@ -96,27 +96,26 @@
   <!-- Image-slot web component (user-fillable photos) -->
   <script src="image-slot.js"></script>
 
-  <!-- React + Babel (pinned) -->
+  <!-- React (UMD — global React + ReactDOM) -->
   <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
   <!-- Data (plain JS) -->
   <script src="rg-data.js"></script>
 
-  <!-- App (Babel JSX, in dependency order) -->
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" src="rg-bits.jsx"></script>
-  <script type="text/babel" src="rg-nav-hero.jsx"></script>
-  <script type="text/babel" src="rg-story-impact.jsx"></script>
-  <script type="text/babel" src="rg-donation.jsx"></script>
-  <script type="text/babel" src="rg-stories-volunteer-csr.jsx"></script>
-  <script type="text/babel" src="rg-home-extras.jsx"></script>
-  <script type="text/babel" src="rg-footer.jsx"></script>
-  <script type="text/babel" src="rg-app.jsx"></script>
-  <!-- GSAP animations -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="rg-animations.js"></script>
+  <!-- App components (pre-compiled, dependency order) -->
+  <script src="dist/tweaks-panel.js"></script>
+  <script src="dist/rg-bits.js"></script>
+  <script src="dist/rg-nav-hero.js"></script>
+  <script src="dist/rg-story-impact.js"></script>
+  <script src="dist/rg-donation.js"></script>
+  <script src="dist/rg-stories-volunteer-csr.js"></script>
+  <script src="dist/rg-home-extras.js"></script>
+  <script src="dist/rg-footer.js"></script>
+  <script src="dist/rg-app.js"></script>
+  <!-- GSAP animations (deferred — enhances scroll, not critical for first paint) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="rg-animations.js" defer></script>
 </body>
 </html>

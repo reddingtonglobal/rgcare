@@ -7,8 +7,9 @@
 #   1. git pull latest code from GitHub
 #   2. Install/update backend npm dependencies
 #   3. Start/restart backend via ecosystem.config.js (PM2, port 5000)
-#   4. Apply nginx config (first run only) and reload nginx
-#   5. Smoke test — verifies site + API are responding
+#   4. Pre-compile JSX → dist/ (removes Babel from browser, faster load)
+#   5. Apply nginx config (first run only) and reload nginx
+#   6. Smoke test — verifies site + API are responding
 # ─────────────────────────────────────────────────────────────────────────────
 
 set -e
@@ -30,7 +31,7 @@ echo "╚═══════════════════════�
 echo ""
 
 # ── 1. Pull latest code ───────────────────────────────────────────────────────
-echo "==> [1/5] Pulling latest code from GitHub..."
+echo "==> [1/6] Pulling latest code from GitHub..."
 cd "$RGCARE_DIR"
 git pull origin main
 echo ""
@@ -44,14 +45,14 @@ if [ -f "$SELF_IN_REPO" ] && ! diff -q "$SELF_IN_REPO" "$SELF_IN_HOME" > /dev/nu
 fi
 
 # ── 2. Backend: install deps ──────────────────────────────────────────────────
-echo "==> [2/5] Installing backend dependencies..."
+echo "==> [2/6] Installing backend dependencies..."
 cd "$BACKEND_DIR"
 mkdir -p logs
 npm install --omit=dev --no-audit --no-fund
 echo ""
 
 # ── 3. Backend: start/restart via ecosystem.config.js ────────────────────────
-echo "==> [3/5] Starting/restarting backend (PM2, port 5000)..."
+echo "==> [3/6] Starting/restarting backend (PM2, port 5000)..."
 
 # Clean up the old incorrectly-named process if it exists
 if pm2 list | grep -q "rg-backend"; then
@@ -71,8 +72,24 @@ fi
 pm2 save
 echo ""
 
-# ── 4. Nginx: sync frontend files + apply config + reload ───────────────────
-echo "==> [4/5] Deploying frontend and reloading nginx..."
+# ── 4. Pre-compile JSX → dist/ ───────────────────────────────────────────────
+echo "==> [4/6] Pre-compiling JSX files → public/dist/ ..."
+FRONTEND_NGO="$RGCARE_DIR/ngo-new-main"
+
+# Install build deps (only @babel/core + @babel/preset-react) if not present
+if [ ! -d "$FRONTEND_NGO/node_modules/@babel/core" ]; then
+  echo "    Installing build dependencies (first time only)..."
+  cd "$FRONTEND_NGO"
+  npm install --save-dev @babel/core @babel/preset-react \
+    --no-audit --no-fund --legacy-peer-deps 2>&1 | tail -1
+fi
+
+cd "$FRONTEND_NGO"
+node scripts/build-public.js
+echo ""
+
+# ── 5. Nginx: sync frontend files + apply config + reload ───────────────────
+echo "==> [5/6] Deploying frontend and reloading nginx..."
 
 # Sync public/ files to web root (accessible by www-data)
 mkdir -p "$FRONTEND_DEST"
@@ -94,8 +111,8 @@ nginx -t && systemctl reload nginx
 echo "    Nginx reloaded — serving frontend from: $FRONTEND_DEST"
 echo ""
 
-# ── 5. Smoke test ─────────────────────────────────────────────────────────────
-echo "==> [5/5] Smoke testing..."
+# ── 6. Smoke test ─────────────────────────────────────────────────────────────
+echo "==> [6/6] Smoke testing..."
 sleep 2
 
 API_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:5000/api/health 2>/dev/null || echo "000")
