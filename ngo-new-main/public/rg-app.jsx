@@ -32,6 +32,25 @@ function App() {
 
   useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
+  // Scroll to hash anchor after React renders (handles #samuel-campaign etc.)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const id = hash.slice(1);
+    let attempts = 0;
+    const poll = setInterval(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        clearInterval(poll);
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
+      }
+      if (++attempts > 40) clearInterval(poll);
+    }, 100);
+    return () => clearInterval(poll);
+  }, []);
+
   const openDonate = () => setDonateOpen(true);
   const goVolunteer = () => {
     const el = document.getElementById("volunteer");
