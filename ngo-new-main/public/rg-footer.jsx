@@ -224,7 +224,7 @@ function Footer({ onDonate }) {
         <div className="rg-footer-bottom">
           <span>© {new Date().getFullYear()} {o.legal}. All rights reserved.</span>
           <div className="rg-footer-legal">
-            <a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/donate">Refund policy</a><a href="/transparency">Compliance &amp; documents</a>
+            <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refund.html">Refund policy</a><a href="compliance.html">Compliance &amp; documents</a>
           </div>
         </div>
       </div>

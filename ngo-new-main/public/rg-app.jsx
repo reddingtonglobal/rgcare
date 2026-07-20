@@ -43,6 +43,7 @@ function App() {
       <Nav onDonate={openDonate} t={t} />
       <main>
         <Hero t={t} onDonate={openDonate} onVolunteer={goVolunteer} />
+        <SamuelCrowdfund onDonate={openDonate} />
         <About />
         <Impact />
         <Programs />

@@ -236,4 +236,119 @@ function FieldGallery() {
   );
 }
 
-Object.assign(window, { DonatePopup, FounderMessage, Testimonials, DonationTrust, HomeFAQ, FieldVideo, FieldGallery });
+/* ---- Samuel Emergency Crowdfund — urgent campaign banner ---- */
+function SamuelCrowdfund({ onDonate }) {
+  const COLLECTED = 56000;
+  const GOAL = 506000; // 56k already + 4.5L more
+  const pct = Math.round((COLLECTED / GOAL) * 100);
+
+  const [copied, setCopied] = React.useState(false);
+  const copyUPI = () => {
+    const upi = "care@rgcare.in";
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(upi).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
+    }
+  };
+
+  return (
+    <section className="section rg-samuel-sec" id="samuel-campaign" aria-label="Emergency crowdfunding campaign for Samuel">
+      <div className="wrap wrap-wide">
+
+        {/* Urgency banner */}
+        <div className="rg-samuel-alert">
+          <span className="rg-samuel-pulse" aria-hidden="true"></span>
+          <span><strong>Urgent appeal —</strong> Samuel needs your help right now. Every rupee counts.</span>
+        </div>
+
+        <div className="rg-samuel-grid">
+
+          {/* Video column */}
+          <div className="rg-samuel-video-wrap">
+            <video
+              className="rg-samuel-video"
+              src="assets/samuel-story.mp4"
+              controls
+              playsInline
+              preload="metadata"
+              poster=""
+              aria-label="Samuel's story — accident survivor"
+            >
+              Your browser does not support video playback.
+            </video>
+            <p className="rg-samuel-vid-cap">
+              <Icon name="play-circle" size={15} /> Samuel's story — watch before you scroll past
+            </p>
+          </div>
+
+          {/* Info + fundraising column */}
+          <div className="rg-samuel-body">
+            <Eyebrow>Emergency crowdfunding</Eyebrow>
+            <h2 className="rg-h2" style={{ marginTop: 10 }}>Help Samuel recover — he needs us now</h2>
+            <p className="muted" style={{ marginTop: 12, fontSize: 17, lineHeight: 1.7 }}>
+              Samuel met with a serious accident and is fighting for recovery. The medical costs
+              are overwhelming his family. We have already raised <strong>₹56,000</strong> but still need
+              <strong> ₹4,50,000 more</strong> to cover surgery, rehabilitation and aftercare.
+              Your donation — however small — can change his future.
+            </p>
+
+            {/* Progress bar */}
+            <div className="rg-samuel-progress-wrap">
+              <div className="rg-samuel-progress-labels">
+                <span><Icon name="indian-rupee" size={14} /> <strong>₹56,000</strong> raised</span>
+                <span className="muted">Goal: <strong>₹5,06,000</strong></span>
+              </div>
+              <div className="rg-samuel-bar" role="progressbar" aria-valuenow={pct} aria-valuemin="0" aria-valuemax="100">
+                <div className="rg-samuel-bar-fill" style={{ width: pct + "%" }}></div>
+              </div>
+              <div className="rg-samuel-bar-pct">{pct}% funded — <span className="rg-samuel-bar-needed">₹4,50,000 still needed</span></div>
+            </div>
+
+            {/* Trust badges */}
+            <div className="rg-samuel-trust">
+              {[["shield-check","Registered NGO"], ["receipt-indian-rupee","80G tax benefit"], ["lock","Secure payment"]].map(([ic,lbl]) => (
+                <span key={lbl} className="rg-samuel-trust-badge"><Icon name={ic} size={14} /> {lbl}</span>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="rg-samuel-cta">
+              <button className="btn btn-rose btn-lg rg-samuel-btn-pulse" onClick={onDonate}>
+                <Icon name="heart" size={19} /> Donate for Samuel now
+              </button>
+              <a href="https://wa.me/918796508140?text=I+want+to+donate+for+Samuel" target="_blank" rel="noopener noreferrer"
+                 className="btn btn-ghost btn-lg rg-samuel-wa-btn">
+                <Icon name="message-circle" size={18} /> Share on WhatsApp
+              </a>
+            </div>
+
+            {/* QR pay */}
+            <div className="rg-samuel-qr-wrap card">
+              <div className="rg-samuel-qr-inner">
+                <img
+                  src="assets/samuel-qr.jpeg"
+                  alt="Scan QR to pay directly for Samuel's treatment"
+                  className="rg-samuel-qr"
+                  width="160"
+                  height="160"
+                />
+                <div className="rg-samuel-qr-info">
+                  <p className="rg-samuel-qr-title"><Icon name="scan-qr-code" size={18} /> Scan &amp; pay instantly</p>
+                  <p className="muted" style={{ fontSize: 14, margin: "6px 0 10px" }}>
+                    Scan the QR with any UPI app — GPay, PhonePe, Paytm, BHIM — and the amount goes directly toward Samuel's treatment.
+                  </p>
+                  <button className="rg-samuel-copy-btn" onClick={copyUPI} aria-label="Copy UPI ID">
+                    <Icon name={copied ? "check" : "copy"} size={14} />
+                    {copied ? "Copied!" : "Copy UPI ID: care@rgcare.in"}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>{/* end body */}
+        </div>{/* end grid */}
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { DonatePopup, FounderMessage, Testimonials, DonationTrust, HomeFAQ, FieldVideo, FieldGallery, SamuelCrowdfund });
