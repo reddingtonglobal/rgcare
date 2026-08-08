@@ -182,7 +182,7 @@ function Hero({ t, onDonate, onVolunteer, onWatch }) {
   // default: full-bleed
   return (
     <section className="rg-hero hero-full" id="top">
-      <video className="rg-hero-bg" src="assets/Assam relief tumbnail.mp4" autoPlay muted loop playsInline
+      <video className="rg-hero-bg" src="assets/hero-bg.mp4" autoPlay muted loop playsInline
              ref={(el) => { if (el) { el.muted = true; const p = el.play && el.play(); if (p && p.catch) p.catch(() => {}); } }} aria-hidden="true"></video>
       <div className="rg-hero-scrim" />
       <div className="wrap wrap-wide rg-hero-full-inner">

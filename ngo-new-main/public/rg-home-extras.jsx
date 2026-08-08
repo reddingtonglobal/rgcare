@@ -351,4 +351,35 @@ function SamuelCrowdfund({ onDonate }) {
   );
 }
 
-Object.assign(window, { DonatePopup, FounderMessage, Testimonials, DonationTrust, HomeFAQ, FieldVideo, FieldGallery, SamuelCrowdfund });
+/* ---- Assam Relief Banner ---- */
+function AssamReliefBanner({ onDonate }) {
+  return (
+    <section className="section rg-assam-sec">
+      <div className="wrap wrap-wide">
+        <div className="rg-assam-card card">
+          <div className="rg-assam-media-grid">
+            <video className="rg-assam-media-item" src="assets/Assam-flood-relief.mp4" autoPlay muted loop playsInline
+                   ref={(el) => { if (el) { el.muted = true; const p = el.play && el.play(); if (p && p.catch) p.catch(() => {}); } }} aria-hidden="true"></video>
+            <img src="assets/Save-assam.jpeg" alt="Assam flood relief" className="rg-assam-media-item" />
+          </div>
+          <div className="rg-assam-content">
+            <Eyebrow center>Urgent Relief: Assam Floods</Eyebrow>
+            <h2 className="rg-h2" style={{ marginTop: 10, textAlign: "center" }}>Stand with Assam in their hour of need</h2>
+            <p className="muted" style={{ marginTop: 12, fontSize: 17, lineHeight: 1.7, textAlign: "center", maxWidth: 760, margin: "12px auto 0" }}>
+              Devastating floods have displaced thousands of families, washing away homes and livelihoods. 
+              Together, we can bring hope and vital supplies to those who have lost everything. 
+              Your compassion can rebuild lives.
+            </p>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: 26 }}>
+              <button className="btn btn-rose btn-lg" onClick={onDonate}>
+                <Icon name="heart" size={18} /> Donate to Assam Relief
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { DonatePopup, FounderMessage, Testimonials, DonationTrust, HomeFAQ, FieldVideo, FieldGallery, SamuelCrowdfund, AssamReliefBanner });

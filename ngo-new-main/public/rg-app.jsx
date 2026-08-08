@@ -63,6 +63,7 @@ function App() {
       <main>
         <Hero t={t} onDonate={openDonate} onVolunteer={goVolunteer} />
         <SamuelCrowdfund onDonate={openDonate} />
+        <AssamReliefBanner onDonate={openDonate} />
         <About />
         <Impact />
         <Programs />
