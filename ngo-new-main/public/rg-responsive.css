@@ -1,0 +1,152 @@
+/* ============================================================
+   RG CARE FOUNDATION — Responsive CSS
+   Complete mobile-first breakpoints for all screen sizes.
+   Breakpoints: 1200 · 980 · 860 · 720 · 560 · 420
+   ============================================================ */
+
+/* Base: prevent horizontal overflow */
+html, body { overflow-x: hidden; }
+img, video, iframe { max-width: 100%; }
+
+/* 1200px: large tablets / small laptops */
+@media (max-width: 1200px) {
+  :root { --gutter: clamp(18px, 4vw, 48px); }
+  .rg-hero-full-text { max-width: 640px; }
+}
+
+/* 980px: tablets landscape */
+@media (max-width: 980px) {
+  .hero-split, .hero-centered { padding-top: 100px; }
+  .rg-hero-h { font-size: clamp(30px, 6vw, 52px); }
+  .rg-hero-sub { font-size: 17px; }
+  .rg-floatmetrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .rg-hero-badge { position: static; margin-top: 16px; max-width: none; }
+}
+
+/* 860px: tablet portrait / large phones */
+@media (max-width: 860px) {
+  .rg-nav-inner { padding: 0 clamp(16px, 4vw, 28px); }
+  .rg-hero { min-height: 88vh; }
+  .rg-hero-full-inner { padding-top: 96px; padding-bottom: 64px; }
+  .rg-hero-h { font-size: clamp(28px, 7vw, 48px); }
+  .rg-hero-sub { font-size: 16px; max-width: 100%; }
+  .rg-hero-cta { gap: 10px; margin-top: 24px; }
+  .rg-hero-cta .btn { flex: 1; min-width: 140px; justify-content: center; }
+  .rg-creds { gap: 8px; }
+  .rg-cred { font-size: 12.5px; padding: 8px 13px; }
+  .rg-trust-item { font-size: 13px; }
+  .rg-section-head.two { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .rg-section-sub.left { max-width: 100%; }
+  .rg-about-grid { gap: 28px; }
+  .rg-dtrust-head { max-width: 100%; }
+  .rg-transp-chips { gap: 8px; }
+  .rg-transp-right { grid-template-columns: 1fr; }
+  .rg-vol-benefits { grid-template-columns: 1fr; }
+  .rg-story-body { padding: 24px 20px; }
+  .rg-story-quote { font-size: 18px; }
+  .rg-story-media { min-height: 240px; }
+  .rg-stickybar { padding: 10px 16px; gap: 10px; }
+  .rg-stickybar-text { display: none; }
+  .rg-faq-sub { max-width: 100%; }
+  .rg-csr-cta { flex-direction: column; text-align: center; }
+  .rg-csr-cta-btns { justify-content: center; }
+  .rg-csr-cta-h { max-width: 100%; }
+  .rg-csr-grid { gap: 14px; }
+  .rg-samuel-alert { font-size: 14px; }
+}
+
+/* 720px: large phone */
+@media (max-width: 720px) {
+  .section { padding: clamp(40px, 6vw, 72px) 0; }
+  .rg-hero { min-height: 92vh; }
+  .rg-hero-h { font-size: clamp(26px, 8vw, 42px); }
+  .rg-floatmetrics { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .rg-metric { padding: 16px 14px; }
+  .rg-metric-num { font-size: clamp(22px, 5vw, 30px); }
+  .hero-split, .hero-centered { padding-top: 88px; }
+  .rg-modal-backdrop { padding: 10px 8px; align-items: flex-end; }
+  .rg-donate-widget.is-modal { border-radius: var(--r-lg) var(--r-lg) 0 0; max-height: 94vh; overflow-y: auto; }
+  .rg-donate-amounts { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .rg-amount-btn { padding: 12px 8px; font-size: 14px; }
+  .rg-donate-tabs { gap: 4px; }
+  .rg-donate-step { padding: 20px 16px; }
+  .rg-done-actions { flex-direction: column; }
+  .rg-done-actions .btn { width: 100%; }
+  .rg-footer-cols { grid-template-columns: 1fr 1fr; }
+  .rg-news { max-width: 100%; }
+  .rg-footer-cta { flex-direction: column; text-align: center; }
+  .rg-footer-cta .btn { width: 100%; justify-content: center; }
+  .rg-phero { padding: 100px 0 44px; }
+  .rg-phero-title { font-size: clamp(26px, 6vw, 40px); }
+  .rg-phero-lead { font-size: 16px; }
+  .rg-phero-media { display: none; }
+  .rg-phero.has-media .rg-phero-inner { grid-template-columns: 1fr; }
+  .rg-contact-grid { grid-template-columns: 1fr; }
+  .rg-blog-feature { grid-template-columns: 1fr; }
+  .rg-blog-grid { grid-template-columns: 1fr; }
+  .rg-opt-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--r); }
+  .rg-opt-table { min-width: 540px; }
+}
+
+/* 560px: standard phone */
+@media (max-width: 560px) {
+  .rg-h2 { font-size: clamp(24px, 7vw, 36px); }
+  .rg-section-sub { font-size: 16px; }
+  .rg-hero { min-height: 92vh; }
+  .rg-hero-cta { flex-direction: column; align-items: stretch; }
+  .rg-hero-cta .btn { width: 100%; justify-content: center; }
+  .rg-floatmetrics { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rg-hero-collage { grid-template-columns: 1fr; }
+  .rg-hero-collage image-slot:nth-child(odd) { margin-top: 0; }
+  .rg-field input, .rg-field textarea, .rg-field select { font-size: 16px; }
+  .rg-phero-actions, .rg-ctaband-btns { flex-wrap: wrap; gap: 10px; }
+  .rg-phero-actions .btn, .rg-ctaband-btns .btn { width: 100%; justify-content: center; }
+  .rg-ctaband { flex-direction: column; text-align: center; }
+  .rg-grid-2, .rg-grid-3, .rg-grid-4 { grid-template-columns: 1fr; }
+  .rg-split, .rg-split.wide-left, .rg-split.wide-right { grid-template-columns: 1fr; }
+  .rg-statrow { grid-template-columns: 1fr 1fr; }
+  .rg-tl-item { grid-template-columns: 56px 20px 1fr; gap: 10px; }
+  .rg-tl-year { font-size: 14px; }
+  .rg-impact-grid, .rg-programs-grid, .rg-csr-grid { grid-template-columns: 1fr 1fr; }
+  .rg-fields-2 { grid-template-columns: 1fr; }
+  .rg-vol-benefits { grid-template-columns: 1fr; }
+  .rg-tiers { grid-template-columns: 1fr; }
+  .rg-methods { grid-template-columns: 1fr 1fr; }
+  .rg-footer-cols { grid-template-columns: 1fr; }
+  .rg-footer-bottom { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+  .rg-footer-legal { justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .rg-compliance-row { gap: 8px 14px; }
+  .rg-compliance-row span { font-size: 12px; }
+  .rg-donate-widget, .rg-donate-widget.is-modal { padding: 22px 18px; }
+  .rg-donate-amounts { grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+  .rg-stickybar { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+  .rg-stickybar .btn { flex: 1; justify-content: center; }
+  .rg-whatsapp { right: 14px; bottom: 14px; width: 50px; height: 50px; }
+  .rg-founder-msg { font-size: 16px; }
+  .rg-founder-tagline { font-size: 20px; }
+  .rg-compliance-regs, .rg-compliance-policies { grid-template-columns: 1fr; }
+  .rg-compliance-doc { flex-wrap: wrap; }
+}
+
+/* 420px: small phones */
+@media (max-width: 420px) {
+  .btn-lg { padding: 14px 20px; font-size: 15px; }
+  .btn { min-height: 44px; }
+  .rg-impact-grid, .rg-programs-grid, .rg-csr-grid { grid-template-columns: 1fr; }
+  .rg-donate-amounts { grid-template-columns: 1fr 1fr; }
+  .rg-floatmetrics { grid-template-columns: 1fr 1fr; }
+  .rg-metric { padding: 12px 10px; }
+  .rg-metric-num { font-size: 20px; }
+  .rg-metric-label { font-size: 11px; }
+  .rg-stickybar .btn { width: 100%; justify-content: center; }
+  .rg-samuel-alert { font-size: 13px; gap: 9px; }
+  .rg-samuel-copy-btn { font-size: 12px; }
+  .rg-logo-txt { font-size: 18px; }
+  .rg-logo-txt small { font-size: 9px; }
+}
+
+/* Large desktop */
+@media (min-width: 1600px) {
+  .rg-hero-full-inner { max-width: 900px; }
+  .rg-hero-centered-inner { max-width: 800px; }
+}

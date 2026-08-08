@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-T488JMFV');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/assets/rg-hands.png" />
+  <link rel="preload" href="image-slots-state.json" as="fetch" crossorigin="anonymous" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About RG Care Foundation | Our Story, Mission & Governance</title>
+  <meta name="description" content="Learn about Reddington Global Care Foundation — our story, mission, leadership, values, governance and impact across education, healthcare and community development in India." />
+  <meta name="theme-color" content="#2B6CB0" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="rg-styles.css" />
+  <link rel="stylesheet" href="rg-components.css" />
+  <link rel="stylesheet" href="rg-pages.css" />
+  <link rel="stylesheet" href="rg-responsive.css" />
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "AboutPage", "name": "About RG Care Foundation",
+    "url": "https://rgcare.in/about", "about": { "@type": "NGO", "name": "Reddington Global Care Foundation" } }
+  </script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T488JMFV" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <!-- Inline loading screen – shown immediately, hidden once React mounts -->
+  <style>
+    #rg-loader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;gap:16px;transition:opacity .3s}
+    #rg-loader.done{opacity:0;pointer-events:none}
+    .rg-spin-ring{width:44px;height:44px;border:4px solid #e2e8f0;border-top-color:#2B6CB0;border-radius:50%;animation:rg-spin .7s linear infinite}
+    @keyframes rg-spin{to{transform:rotate(360deg)}}
+    #rg-loader p{font-family:sans-serif;font-size:14px;color:#718096;margin:0}
+  </style>
+  <div id="rg-loader"><div class="rg-spin-ring"></div><p>Loading…</p></div>
+  <div id="root"></div>
+  <script>
+    // Hide loader once React has rendered something into #root
+    var _rgl = setInterval(function(){
+      var r = document.getElementById('root');
+      if(r && r.children.length > 0){
+        document.getElementById('rg-loader').classList.add('done');
+        clearInterval(_rgl);
+      }
+    }, 80);
+    setTimeout(function(){ var l=document.getElementById('rg-loader'); if(l) l.classList.add('done'); }, 8000);
+  </script>
+  <script src="image-slot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="rg-data.js"></script>
+  <script src="rg-pagedata.js"></script>
+  <script src="dist/rg-bits.js"></script>
+  <script src="dist/rg-nav-hero.js"></script>
+  <script src="dist/rg-footer.js"></script>
+  <script src="dist/rg-page.js"></script>
+  <script src="dist/page-about.js"></script>
+  <!-- GSAP animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="rg-animations.js"></script>
+</body>
+</html>

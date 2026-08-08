@@ -1,0 +1,152 @@
+/* RG Care — Terms of Use Page */
+
+function TermsPage() {
+  const o = window.RG.org;
+  const updated = "20 July 2026";
+
+  const sections = [
+    {
+      ic: "file-text",
+      title: "1. Acceptance of Terms",
+      body: `By accessing or using www.rgcare.in (the "Website"), you agree to be bound by these Terms of Use. If you do not agree, please do not use this Website. These terms apply to all visitors, donors, volunteers, and other users.`
+    },
+    {
+      ic: "globe",
+      title: "2. About the Website",
+      body: `This Website is operated by Reddington Global Care Foundation (RG Care Foundation), a registered non-profit organisation under Indian law (PAN: AAOCR4691R). The Website is intended to provide information about our charitable activities, accept donations, and facilitate volunteer and CSR engagement.`
+    },
+    {
+      ic: "user",
+      title: "3. Use of the Website",
+      body: null,
+      list: [
+        ["Permitted use", "You may access and use the Website for lawful, personal, and non-commercial purposes only."],
+        ["Prohibited use", "You must not use the Website to transmit spam, malware, or harmful content; attempt to gain unauthorised access; scrape data without permission; impersonate RG Care Foundation or any individual; or engage in any activity that violates applicable Indian law."],
+        ["Accuracy of information", "You are responsible for ensuring any information you submit (contact forms, volunteer forms, etc.) is accurate and truthful."],
+      ]
+    },
+    {
+      ic: "heart-handshake",
+      title: "4. Donations",
+      body: null,
+      list: [
+        ["Voluntary", "All donations made through this Website are voluntary contributions to RG Care Foundation."],
+        ["80G tax benefits", "Donations may be eligible for tax deduction under Section 80G of the Income Tax Act, 1961, subject to applicable rules and limits. RG Care Foundation will issue a Form 10BE receipt via email."],
+        ["Refunds", "Donations are generally non-refundable. In case of a duplicate payment or technical error, please contact info@rgcare.in within 7 days and we will review the request on a case-by-case basis."],
+        ["Payment security", "Payments are processed by a PCI-DSS compliant payment gateway. We do not store your card details."],
+        ["FCRA", "We are not currently registered under FCRA. We do not accept foreign contributions unless separately notified."],
+      ]
+    },
+    {
+      ic: "copyright",
+      title: "5. Intellectual Property",
+      body: `All content on this Website — including text, images, videos, logos, graphics, and data — is the property of RG Care Foundation or its licensors and is protected by Indian and international copyright law. You may not reproduce, distribute, modify, or commercially exploit any content without prior written permission from us. You may share links to our Website freely.`
+    },
+    {
+      ic: "image",
+      title: "6. User-Submitted Content",
+      body: `If you submit stories, photos, feedback, or other content to us, you grant RG Care Foundation a non-exclusive, royalty-free licence to use, publish, and distribute that content for charitable and awareness purposes. You confirm you have the right to submit such content and that it does not infringe any third-party rights.`
+    },
+    {
+      ic: "alert-triangle",
+      title: "7. Disclaimers",
+      body: null,
+      list: [
+        ["No warranties", "The Website is provided on an \"as is\" basis. We make no warranties regarding its accuracy, completeness, or uninterrupted availability."],
+        ["External links", "Links to third-party websites are provided for convenience only. We do not endorse or take responsibility for their content or privacy practices."],
+        ["Impact figures", "Impact statistics on this Website represent our best estimates based on available field data and are subject to revision."],
+      ]
+    },
+    {
+      ic: "shield-off",
+      title: "8. Limitation of Liability",
+      body: `To the maximum extent permitted by applicable law, RG Care Foundation shall not be liable for any indirect, incidental, or consequential damages arising from your use of the Website. Our total liability for any claim shall not exceed the amount of any donation you have made in the 12 months prior to the claim.`
+    },
+    {
+      ic: "lock",
+      title: "9. Privacy",
+      body: `Your use of this Website is also governed by our Privacy Policy, which is incorporated into these Terms by reference. Please read it at www.rgcare.in/privacy.html.`
+    },
+    {
+      ic: "refresh-cw",
+      title: "10. Changes to These Terms",
+      body: `We may update these Terms of Use at any time. The revised date will be updated at the top of this page. Continued use of the Website after changes are posted constitutes acceptance of the updated terms.`
+    },
+    {
+      ic: "gavel",
+      title: "11. Governing Law & Jurisdiction",
+      body: `These Terms are governed by the laws of India. Any disputes arising from your use of the Website shall be subject to the exclusive jurisdiction of the courts of Gurgaon, Haryana, India.`
+    },
+    {
+      ic: "mail",
+      title: "12. Contact Us",
+      body: `For any questions about these Terms, please contact:\n\nRG Care Foundation\nEmail: info@rgcare.in\nPhone: +91 87965 08140\nAddress: 750, Udyog Vihar Phase 5, Sector 19, Gurgaon, Haryana 122016, India`
+    },
+  ];
+
+  return (
+    <>
+      <Nav solid active="" />
+      <main>
+        <header className="rg-legal-hero">
+          <div className="wrap">
+            <nav className="rg-crumb" aria-label="Breadcrumb">
+              <span className="rg-crumb-item"><a href="/">Home</a><Icon name="chevron-right" size={14} /></span>
+              <span className="rg-crumb-item"><span aria-current="page">Terms of Use</span></span>
+            </nav>
+            <Eyebrow>Legal</Eyebrow>
+            <h1 className="rg-phero-title" style={{ marginTop: 10 }}>Terms of Use</h1>
+            <p className="rg-phero-lead">Please read these terms carefully before using www.rgcare.in.</p>
+            <p className="rg-legal-updated"><Icon name="calendar" size={14} /> Last updated: {updated}</p>
+          </div>
+        </header>
+
+        <div className="wrap rg-legal-body">
+          <aside className="rg-legal-toc">
+            <p className="rg-legal-toc-title">On this page</p>
+            {sections.map((s) => (
+              <a key={s.title} href={"#" + s.title.replace(/\s+/g, "-").toLowerCase()} className="rg-legal-toc-link">
+                {s.title}
+              </a>
+            ))}
+          </aside>
+
+          <article className="rg-legal-content">
+            <div className="rg-legal-intro card">
+              <Icon name="file-text" size={28} style={{ color: "var(--blue)" }} />
+              <p>These Terms of Use govern your access to and use of the RG Care Foundation website. By using this site you agree to these terms. If you have any questions, please email <strong>info@rgcare.in</strong>.</p>
+            </div>
+
+            {sections.map((s) => (
+              <section key={s.title} id={s.title.replace(/\s+/g, "-").toLowerCase()} className="rg-legal-section">
+                <div className="rg-legal-section-head">
+                  <span className="rg-legal-ic"><Icon name={s.ic} size={20} /></span>
+                  <h2 className="rg-h3">{s.title}</h2>
+                </div>
+                {s.body && s.body.split("\n\n").map((para, i) => (
+                  <p key={i} className="rg-legal-p">{para}</p>
+                ))}
+                {s.list && (
+                  <ul className="rg-legal-list">
+                    {s.list.map(([term, def]) => (
+                      <li key={term}><strong>{term}:</strong> {def}</li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            ))}
+
+            <div className="rg-legal-footer-note">
+              <Icon name="info" size={16} />
+              <span>These Terms of Use are governed by the laws of India. For disputes, the courts of Gurgaon, Haryana shall have jurisdiction.</span>
+            </div>
+          </article>
+        </div>
+      </main>
+      <Footer />
+      <StickyBar showWhatsapp={true} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<TermsPage />);
